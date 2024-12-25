@@ -35,7 +35,7 @@
             const store = useUserStore();
             const success = await store.login(this.credentials);
 
-            success ? this.$router.puch('/') : this.error = store.error;
+            success ? this.$router.push('/') : this.error = store.error;
         },
     },
     

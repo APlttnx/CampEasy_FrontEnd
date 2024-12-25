@@ -3,8 +3,10 @@
   <div id="app">
     <ul class='navbar'>
       <router-link class="navItem" to="/">Home</router-link>
+      <router-link class="navItem" to="/login">Log in</router-link>
       <router-link class="navItem" to="/registreren">Registreren</router-link>
       <router-link class="navItem" to="/mijnGegevens">Mijn Gegevens</router-link>
+      <li v-if="isAuthenticated" @click="logout()" class="navItem">Log Out</li>
     </ul>
 
       <router-view></router-view>
@@ -13,7 +15,7 @@
 </template>
 
 <script>
-
+import { useUserStore } from './stores/userStore';
 
 
 export default {
@@ -22,13 +24,21 @@ export default {
   },
   data() {
     return {
-      loginRole: 'none', //voor later --> hangt af welke knoppen in navigatiebar en welke pagina's kunnen getoond worden (Login)
+      
     };
   },
   methods: {
-  
-},
-
+    logout() {
+      const userStore = useUserStore();
+      userStore.logout();
+    },
+  },
+  computed: {
+    isAuthenticated() {
+      const userStore = useUserStore();
+      return userStore.isAuthenticated;
+    },
+  },
 };
 </script>
 

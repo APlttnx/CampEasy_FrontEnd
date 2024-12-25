@@ -1,6 +1,7 @@
 import {createRouter, createWebHashHistory} from 'vue-router';
 import HomePage from '../pages/home/pageHome.vue';
 import RegisterPage from '../pages/authentication/pageRegister.vue';
+import LoginPage from '../pages/authentication/pageLogin.vue';
 import UserInfoPage from '../pages/userInfo/pageUserInfo.vue';
 
 
@@ -16,6 +17,11 @@ export default createRouter({
             path: '/registreren',
             name: 'Register',
             component: RegisterPage,
+        },
+        {
+            path: '/login',
+            name: 'Login',
+            component: LoginPage,
         },
         {
             path: '/mijnGegevens',
