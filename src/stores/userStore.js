@@ -12,8 +12,6 @@ export const useUserStore = defineStore('userStore', {
         isAuthenticated: (state) => !!state.token,
         getUserData: (state) => {
             if (!state.currentUserData) return null;
-            console.log(state.currentUserData.role);
-            console.log(state.currentUserData.firstName);
             return {
                 role: state.currentUserData.role,
                 email: state.currentUserData.email,
