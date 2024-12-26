@@ -1,6 +1,6 @@
 <template>
     <div>
-        <label for="_role">Rol: </label>
+        <label for="_role">Role: </label>
         <input :readonly="!editMode" :class="{'readonly': !editMode}" id="_role" v-model="user.role" /><br>
 
         <label for="_mail">Emailadres: </label>
@@ -43,17 +43,28 @@
 </template>
 <script>
 import { useUserStore } from '@/stores/userStore';
+
 export default {
     name: 'UserInfoPage',
+    mounted() {
+        this.initialiseUserData();
+    },
     data() {
         return {
             editMode: false,
-            user: [],
-            userBackup: [],
-            userStore: useUserStore(),
+            user: {},
+            userBackup: {},
         };
     },
     methods: {
+        async initialiseUserData() {
+            const userStore = useUserStore();
+            await userStore.fetchUserData();
+            const userStoreData = userStore.getUserData;
+            if (userStoreData) {
+                this.user = { ...userStoreData };
+            }
+        },
         activateEditMode() {
             this.userBackup = { ...this.user };
             this.editMode = true;
@@ -62,16 +73,13 @@ export default {
             this.editMode = false;
             this.user = { ...this.userBackup };
         },
+
         saveChanges() {
             this.editMode = false;
             //API call --> PUT
         },
     },
     computed: {
-        fullAddress() {
-            return `${this.user.street} | ${this.user.streetnr} | ${this.user.postcode} | ${this.user.town}`;
-        },
-
         userData() {
             return {
                 firstName: this.user.fn,
@@ -80,9 +88,12 @@ export default {
                 roleUser: this.user.role,
                 email: this.user.email,
                 phoneNumber: this.user.phoneNumber,
-                address: this.fullAddress,
+                address: `${this.user.street} | ${this.user.streetnr} | ${this.user.postcode} | ${this.user.town}`,
                 country: this.user.country,
                 emergencyTel: this.user.emergencyTelnr,
+                creationDate: this.user.creationDate,
+                updateDate: this.user.updateDate,
+                userId: this.user.id,
             };
         },
 

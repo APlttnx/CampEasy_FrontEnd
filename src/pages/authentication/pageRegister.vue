@@ -92,9 +92,9 @@ data() {
   
 },
 computed: {
-  fullAddress() {
-    return `${this.user.street} | ${this.user.streetnr} | ${this.user.postcode} | ${this.user.town}`;
-  },
+  // fullAddress() {
+  //   return `${this.user.street} | ${this.user.streetnr} | ${this.user.postcode} | ${this.user.town}`;
+  // },
 
   userData() {
     return {
