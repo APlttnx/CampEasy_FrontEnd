@@ -3,11 +3,8 @@ import { defineStore} from 'pinia';
 export const useUserStore = defineStore('userStore', {
     state: () => ({
         token: localStorage.getItem('token') || '',
-        currentUserID: localStorage.getItem('userID') || '',
         currentUserRole: localStorage.getItem('userRole') || '',
-        currentUserFirstName: localStorage.getItem('firstName') || '',
-        currentUserPrefName: localStorage.getItem('prefName') || '',
-        currentUserMail: localStorage.getItem('userMail') || '',
+        currentUserGreetName: localStorage.getItem('userGreetName') || '',
         currentUserData: null,
         error: null,
     }),
@@ -28,19 +25,13 @@ export const useUserStore = defineStore('userStore', {
                 }
                 const result = await response.json();
                 this.token = result.token;
-                this.currentUserID = result.userID;
                 this.currentUserRole = result.userRole;
-                this.currentUserFirstName = result.firstName;
-                this.currentUserPrefName = result.prefName;
-                this.currentUserMail = result.userMail;
+                this.currentUserGreetName = result.userGreetName;
 
                 // Store in localStorage
                 localStorage.setItem('token', result.token);
-                localStorage.setItem('userID', result.userID);
                 localStorage.setItem('userRole', result.userRole);
-                localStorage.setItem('firstName', result.firstName);
-                localStorage.setItem('prefName', result.prefName);
-                localStorage.setItem('userMail', result.userMail);
+                localStorage.setItem('userGreetName', result.userGreetName);
 
                 return true;
 
@@ -51,11 +42,8 @@ export const useUserStore = defineStore('userStore', {
         },
         async logout() {
             this.token = '';
-            this.currentUserID = '';
             this.currentUserRole = '';
-            this.currentUserFirstName = '';
-            this.currentUserPrefName = '';
-            this.currentUserMail = '';
+            this.currentUserGreetName = '';
             this.currentOtherData = null;
 
             localStorage.clear();
@@ -65,7 +53,7 @@ export const useUserStore = defineStore('userStore', {
             if (!this.token) return;
 
             try {
-                const response = await fetch(`http://localhost:3100/api/users/${this.currentUserID}`, {
+                const response = await fetch(`http://localhost:3100/api/users/`, {
                     headers: {
                         'Authorization': `Bearer ${this.token}`,
                         'Content-Type': 'application/json',

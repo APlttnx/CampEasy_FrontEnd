@@ -3,14 +3,12 @@
   <div id="app">
     <ul class='navbar'>
       <router-link class="navItem" to="/">Home</router-link>
-      <router-link class="navItem" to="/login">Log in</router-link>
-      <router-link class="navItem" to="/registreren">Registreren</router-link>
-      <router-link class="navItem" to="/mijnGegevens">Mijn Gegevens</router-link>
-      <li v-if="isAuthenticated" @click="logout()" class="navItem">Log Out</li>
+      <router-link v-if="!isAuthenticated" class="navItem" to="/login">Log in</router-link>
+      <router-link v-if="!isAuthenticated" class="navItem" to="/registreren">Registreren</router-link>
+      <router-link v-if="isAuthenticated" class="navItem" to="/mijnGegevens">Mijn Gegevens</router-link>
+      <router-link v-if="isAuthenticated" @click="logout()" class="navItem" to="/">Log Out</router-link>
     </ul>
-
-      <router-view></router-view>
-
+    <router-view></router-view>
   </div>
 </template>
 

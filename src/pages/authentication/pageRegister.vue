@@ -122,9 +122,7 @@ methods: {
 
     fetch("http://localhost:3100/api/users", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: {"Content-Type": "application/json"},
       body: JSON.stringify(this.userData), // Remove the name wrapper
     })
       .then(response => {
