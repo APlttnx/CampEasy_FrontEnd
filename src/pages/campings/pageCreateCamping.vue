@@ -103,6 +103,11 @@ export default {
         this.$router.push('/login');
         return false;
       }
+      const dataToSend = {
+        ...this.campingData,
+        userRole: userStore.currentUserRole,
+      };
+      
       fetch("http://localhost:3100/api/camping", {
         method: "POST",
 
@@ -110,7 +115,8 @@ export default {
           'authorization': `Bearer ${userStore.token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(this.campingData),
+        
+        body: JSON.stringify(dataToSend),
       })
         .then(response => {
           if (!response.ok) {
