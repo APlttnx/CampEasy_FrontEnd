@@ -18,6 +18,10 @@
         <input type="text" v-model="camping.size" id="input_size">
       </div>
       <div class="inputform">
+        <label for="input_description">Omschrijving: </label>
+        <input type="text" v-model="camping.description" id="input_description">
+      </div>
+      <div class="inputform">
         <label for="input_price">Prijs per nacht: </label>
         <input type="text" v-model="camping.price" id="input_price">
       </div>
