@@ -3,6 +3,7 @@ import HomePage from '../pages/home/pageHome.vue';
 import RegisterPage from '../pages/authentication/pageRegister.vue';
 import LoginPage from '../pages/authentication/pageLogin.vue';
 import UserInfoPage from '../pages/userInfo/pageUserInfo.vue';
+import CreateCampingPage from '../pages/campings/pageCreateCamping.vue';
 
 
 export default createRouter({
@@ -27,6 +28,11 @@ export default createRouter({
             path: '/mijnGegevens',
             name: 'UserInfo',
             component: UserInfoPage,
+        },
+        {
+            path: '/campingAanmaken',
+            name: 'CreateCamping',
+            component: CreateCampingPage,
         },
 
         //default

@@ -51,6 +51,8 @@
             <label for="_emergencyTelnr">Noodgeval nummer: </label>
             <input :readonly="!editMode" :class="{'readonly': !editMode}" id="_energencyTelnr" v-model="user.emergencyTelnr" /><br>
         </div>
+
+        
         <button v-show="!editMode" @click="activateEditMode()">Aanpassen</button>
         <button v-show="editMode" @click="cancelChanges()">Annuleren</button>
         <button v-show="editMode" @click="saveChanges()">Opslaan</button>

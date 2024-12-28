@@ -1,0 +1,146 @@
+<template>
+  <div>
+    <form>
+      <div class="inputform">
+        <label for="input_name">Benaming: </label>
+        <input type="text" v-model="camping.name" id="input_name">
+      </div>
+      <div class="inputform">
+        <label for="input_type">Type: </label>
+        <input list="typesCampings" v-model="camping.type" id="input_type">
+        <datalist id="typesCampings">
+          <option value="Tent" />
+          <option value="Caravan" />
+        </datalist>
+      </div>
+      <div class="inputform">
+        <label for="input_size">Grootte: </label>
+        <input type="text" v-model="camping.size" id="input_size">
+      </div>
+      <div class="inputform">
+        <label for="input_price">Prijs per nacht: </label>
+        <input type="text" v-model="camping.price" id="input_price">
+      </div>
+      <div class="inputform">
+        <label for="input_street">Straat: </label>
+        <input type="text" v-model="camping.street" id="input_street">
+        <label for="input_streetnr">Nr: </label>
+        <input type="text" v-model="camping.streetnr" id="input_streetnr">
+      </div>
+      <div class="inputform">
+        <label for="input_postcode">Postcode: </label>
+        <input type="text" v-model="camping.postcode" id="input_postcode">
+
+        <label for="input_town">Gemeente: </label>
+        <input type="text" v-model="camping.town" id="input_town">
+      </div>
+      <div class="inputform">
+        <label for="input_country">Land: </label>
+        <input type="text" v-model="camping.country" id="input_country">
+      </div>
+      <div class="inputform">
+        <label>Afbeeldingen: </label>
+        <imageUpload v-model:images="images" />
+      </div>
+      <div>
+        <button type="submit" @click="clearForm()">Annuleren</button>
+        <button type="submit" @click="submitCamping()">Aanmaken</button>
+      </div>
+    </form>
+  </div>
+</template>
+<script>
+import { useUserStore } from '@/stores/userStore';
+import imageUpload from '@/components/imageUpload.vue';
+export default {
+  name: 'CreateCampingPage',
+  components: {
+    imageUpload,
+  },
+  data() {
+    return {
+      camping: {
+        name: '',
+        type: '',
+        size: '',
+        price: '',
+        description: '',
+        street: '',
+        streetnr: '',
+        postcode: '',
+        town: '',
+        country: '',
+      },
+      images: [],
+    };
+
+  },
+  computed: {
+    campingData() {
+      return {
+        name: this.camping.name,
+        type: this.camping.type,
+        size: this.camping.size,
+        price: this.camping.price,
+        description: this.camping.description,
+        address: `${this.camping.street} | ${this.camping.streetnr} | ${this.camping.postcode} | ${this.camping.town}`,
+        country: this.camping.country,
+        images: this.images,
+      };
+    },
+  },
+
+  methods: {
+    submitCamping() {
+      const userStore = useUserStore();
+      //failsave als logout terwijl op pagina
+      if (!userStore.token) {
+        console.log("no user logged in");
+        this.$router.push('/login');
+        return false;
+      }
+      fetch("http://localhost:3100/api/camping", {
+        method: "POST",
+
+        headers: {
+          'authorization': `Bearer ${userStore.token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(this.campingData),
+      })
+        .then(response => {
+          if (!response.ok) {
+            return response.json().then(err => Promise.reject(err));
+          }
+          return response.json();
+        })
+        .then(data => {
+          // Handle success
+          console.log('Success:', data);
+        })
+        .catch(error => {
+          // Handle error
+          console.error('Error:', error);
+        });
+      this.clearForm();
+    },
+    clearForm() {
+      this.camping = {
+        name: '',
+        type: '',
+        size: '',
+        price: '',
+        description: '',
+        street: '',
+        streetnr: '',
+        postcode: '',
+        town: '',
+        country: '',
+      };
+      this.images = [];
+      this.$router.push('/');
+    },
+  },
+};
+</script>
+<style></style>

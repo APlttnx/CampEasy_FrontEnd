@@ -9,6 +9,7 @@
         <router-link v-if="!isAuthenticated" class="navItem" to="/registreren">Registreren</router-link>
         <router-link v-if="isAuthenticated" class="navItem" to="/mijnGegevens">Mijn Gegevens</router-link>
         <router-link v-if="isAuthenticated" @click="logout()" class="navItem" to="/">Afmelden</router-link>
+        <router-link v-if="isAuthenticated" class="navItem" to="/campingAanmaken">Temp Camping aanmaken</router-link>
       </nav>
     </header>
     <main>
@@ -51,7 +52,7 @@ export default {
 
 }
 body {
-  background: linear-gradient(to bottom, #3E7B27, #85A947);
+  background: #123524;
   background-attachment: fixed;
   padding: 0px;
   margin: 0px;
@@ -68,8 +69,8 @@ main {
   padding: 30px;
   background-color: #EFE3C2;
   min-height: 700px;
-  margin-left: 7.5%;
-  margin-right: 7.5%;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 
@@ -97,6 +98,16 @@ nav {
   margin-right: auto;
   width: 100%;
   object-fit: cover;
+}
+
+.column {
+  float: left;
+  width: 10%;
+}
+
+.column.center {
+  float: left;
+  width: 80%;
 }
 
 </style>

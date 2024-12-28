@@ -1,6 +1,6 @@
 <template>
   <div>
-      <h1>Welcome</h1>
+      <h1>Welkom</h1>
       <form>
           <div>Welke rol*: 
             <label for="input_user">Gebruiker: </label>
@@ -92,9 +92,9 @@ data() {
   
 },
 computed: {
-  fullAddress() {
-    return `${this.user.street} | ${this.user.streetnr} | ${this.user.postcode} | ${this.user.town}`;
-  },
+  // fullAddress() {
+  //   return `${this.user.street} | ${this.user.streetnr} | ${this.user.postcode} | ${this.user.town}`;
+  // },
 
   userData() {
     return {
@@ -134,12 +134,10 @@ methods: {
       .then(data => {
         // Handle success
         console.log('Success:', data);
-        // Maybe redirect or show success message
       })
       .catch(error => {
         // Handle error
         console.error('Error:', error);
-        // Show error message to user
       });
     },
   },
