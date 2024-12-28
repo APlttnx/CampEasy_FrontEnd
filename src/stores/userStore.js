@@ -84,8 +84,8 @@ export const useUserStore = defineStore('userStore', {
             }
         },
         async updateUserData(userData) {
+            console.log("updating user:");
             if (!this.token) return;
-
             try {
                 const response = await fetch(`http://localhost:3100/api/users/`, {
                     method: 'PUT',
@@ -94,26 +94,31 @@ export const useUserStore = defineStore('userStore', {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        firstName: userData.fn,
-                        lastName: userData.ln,
-                        preferredName: userData.pn,
-                        roleUser: userData.role,
+                        firstName: userData.firstName,
+                        lastName: userData.lastName,
+                        preferredName: userData.preferredName || "",
+                        roleUser: userData.roleUser,
                         email: userData.email,
-                        phoneNumber: userData.telnr,
-                        address: `${userData.street} | ${userData.streetnr} | ${userData.postcode} | ${userData.town}`,
-                        country: userData.country,
-                        emergencyTel: userData.emergencyTelnr,
+                        phoneNumber: userData.phoneNumber,
+                        address: userData.address || "",
+                        country: userData.country || "",
+                        emergencyTel: userData.emergencyTel || "",
                     }),
                 });
 
-                if (!response.ok) throw new Error('Failed to update user data');
-                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    this.error = errorData;
+                    return Promise.reject(errorData);
+                }
+
                 // Refresh user data after successful update
                 await this.fetchUserData();
-                return true;
+                const successData = await response.json();
+                return successData;
             } catch (error) {
                 this.error = error.message;
-                return false;
+                return Promise.reject(error);
             }
         },
     },

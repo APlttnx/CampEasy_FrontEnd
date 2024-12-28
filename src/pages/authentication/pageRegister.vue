@@ -52,11 +52,11 @@
           </div>
           <div>
             <label for="input_password">Wachtwoord*: </label>
-            <input type="text" v-model="user.password" id="input_password">
+            <input type="password" v-model="user.password" id="input_password">
           </div>
           <div>
             <label for="input_checkPassword">Bevestiging wachtwoord:* </label>
-            <input type="text" v-model="user.checkPassword" id="input_checkPassword">
+            <input type="password" v-model="user.checkPassword" id="input_checkPassword">
           </div>
           <div>
             <button type="submit" @click="submitUser()">Registreren</button>
@@ -92,9 +92,9 @@ data() {
   
 },
 computed: {
-  // fullAddress() {
-  //   return `${this.user.street} | ${this.user.streetnr} | ${this.user.postcode} | ${this.user.town}`;
-  // },
+  fullAddress() {
+    return `${this.user.street} | ${this.user.streetnr} | ${this.user.postcode} | ${this.user.town}`;
+  },
 
   userData() {
     return {
@@ -104,7 +104,7 @@ computed: {
       roleUser: this.user.role,
       email: this.user.email,
       phoneNumber: this.user.phoneNumber,
-      address: this.fullAddress,
+      address: `${this.user.street} | ${this.user.streetnr} | ${this.user.postcode} | ${this.user.town}`,
       country: this.user.country,
       emergencyTel: this.user.emergencyTelnr,
       password: this.user.password,
@@ -123,7 +123,7 @@ methods: {
     fetch("http://localhost:3100/api/users", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(this.userData), // Remove the name wrapper
+      body: JSON.stringify(this.userData),
     })
       .then(response => {
         if (!response.ok) {
