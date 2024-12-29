@@ -42,6 +42,14 @@
         <label for="input_country">Land: </label>
         <input type="text" v-model="camping.country" id="input_country">
       </div>
+      Faciliteiten:
+      <div v-for="facility in this.facilities" :key="facility.ID">
+        <label>
+          <input type="checkbox" :value="facility.ID" v-model="selectedFacilities" />
+          {{ facility.facilityName }}
+        </label>
+      </div>
+
       <div class="inputform">
         <label>Afbeeldingen: </label>
         <imageUpload v-model:images="images" />
@@ -55,11 +63,16 @@
 </template>
 <script>
 import { useUserStore } from '@/stores/userStore';
+import { useFacilityStore } from '@/stores/facilityStore';
+// import { mapStores } from 'pinia';
 import imageUpload from '@/components/imageUpload.vue';
 export default {
   name: 'CreateCampingPage',
   components: {
     imageUpload,
+  },
+  mounted() {
+    this.fetchFacilities();
   },
   data() {
     return {
@@ -76,6 +89,8 @@ export default {
         country: '',
       },
       images: [],
+      facilities: [],
+      selectedFacilities: [],
     };
 
   },
@@ -90,14 +105,22 @@ export default {
         address: `${this.camping.street} | ${this.camping.streetnr} | ${this.camping.postcode} | ${this.camping.town}`,
         country: this.camping.country,
         images: this.images,
+        facilities: this.selectedFacilities,
       };
     },
   },
 
   methods: {
+    async fetchFacilities() {
+      const facilityStore = useFacilityStore();
+      await facilityStore.fetchFacilities();
+      if (facilityStore.facilities) {
+        this.facilities = { ...facilityStore.facilities };
+      }
+    },
     submitCamping() {
-      const userStore = useUserStore();
       //failsave als logout terwijl op pagina
+      const userStore = useUserStore();
       if (!userStore.token) {
         console.log("no user logged in");
         this.$router.push('/login');
@@ -107,15 +130,13 @@ export default {
         ...this.campingData,
         userRole: userStore.currentUserRole,
       };
-      
+
       fetch("http://localhost:3100/api/camping", {
         method: "POST",
-
         headers: {
           'authorization': `Bearer ${userStore.token}`,
           "Content-Type": "application/json",
         },
-        
         body: JSON.stringify(dataToSend),
       })
         .then(response => {
@@ -148,6 +169,7 @@ export default {
         country: '',
       };
       this.images = [];
+      this.selectedFacilities = [];
       this.$router.push('/');
     },
   },
