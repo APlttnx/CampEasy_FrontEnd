@@ -39,8 +39,7 @@
         <input type="text" v-model="camping.town" id="input_town">
       </div>
       <div class="inputform">
-        <label for="input_country">Land: </label>
-        <input type="text" v-model="camping.country" id="input_country">
+        <countrySelector v-model="camping.country"  id="input_country"/>
       </div>
       Faciliteiten:
       <div v-for="facility in this.facilities" :key="facility.ID">
@@ -66,10 +65,12 @@ import { useUserStore } from '@/stores/userStore';
 import { useFacilityStore } from '@/stores/facilityStore';
 // import { mapStores } from 'pinia';
 import imageUpload from '@/components/imageUpload.vue';
+import countrySelector from '@/components/countrySelector.vue';
 export default {
   name: 'CreateCampingPage',
   components: {
     imageUpload,
+    countrySelector,
   },
   mounted() {
     this.fetchFacilities();

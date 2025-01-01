@@ -2,13 +2,13 @@
 
   <div id="app">
     <header>
-    <img class="headerPicture" src="./assets/jpg/headerAfb.jpg" alt="forest"/>
+    <img class="headerPicture" src="./assets/headerAfb.jpg" alt="forest"/>
       <nav>
         <router-link class="navItem" to="/">Home</router-link>
         <router-link v-if="!isAuthenticated" class="navItem" to="/login">Aanmelden</router-link>
         <router-link v-if="!isAuthenticated" class="navItem" to="/registreren">Registreren</router-link>
         <router-link v-if="isAuthenticated" class="navItem" to="/mijnGegevens">Mijn Gegevens</router-link>
-        <router-link v-if="isAuthenticated" @click="logout()" class="navItem" to="/">Afmelden</router-link>
+        <a v-if="isAuthenticated" @click="logout()" class="navItem" href="#">Afmelden</a>
         <router-link v-if="isAuthenticated" class="navItem" to="/campingAanmaken">Temp Camping aanmaken</router-link>
       </nav>
     </header>
@@ -35,6 +35,7 @@ export default {
     logout() {
       const userStore = useUserStore();
       userStore.logout();
+      this.$router.push('/');
     },
   },
   computed: {
@@ -88,8 +89,12 @@ nav {
 /* Individual Nav Items */
 .navItem {
   margin: 0 15px; /* Space between nav items */
-  border: 1px;
   color: #EFE3C2;
+  text-decoration: underline;
+}
+
+.router-link-active{
+  color: rgba(252, 151, 84, 0.959)
 }
 
 .headerPicture {
