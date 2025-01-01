@@ -32,9 +32,8 @@ export const useCampingStore = defineStore('campingStore', {
                 });
                 if (!response.ok) throw new Error('Failed to fetch campings');
                 this.campingData = await response.json();
-                console.log("pinia data");
-                console.log(this.campingData);
-                console;
+                // console.log("pinia data");
+                // console.log(this.campingData);
             } catch (error) {
                 this.error = error.message;
                 this.campingData = [];

@@ -26,8 +26,8 @@ export default{
         async initiliazeCampingData() {
             const cStore = useCampingStore();
             await cStore.fetchCampings();
-            console.log("homepage data: ");
-            console.log(cStore.campingCards);
+            // console.log("homepage data: ");
+            // console.log(cStore.campingCards);
         },
     },
 

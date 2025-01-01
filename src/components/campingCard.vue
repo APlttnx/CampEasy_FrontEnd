@@ -1,16 +1,19 @@
 <template>
-    <div class="camping-card" @click="navigateToDetails">
+  <router-link class="card" :to="{name: 'CampingDetails', params: {ID: camping.ID }}">
+    <div class="camping-card">
       <div class="image-camping">
-
         <img :src="camping.image || require('@/assets/headerAfb.jpg')" alt="Camping Image" />
-
       </div>
       <div class="info">
-        <h3>{{ camping.name }}, {{ camping.town }}</h3>
+        <div class="topline">
+          <h3 class="leftItem">{{ camping.name }}</h3>
+          <h3 class="rightItem">{{ camping.town }}</h3>
+        </div>
         <p>{{ camping.size }} m²</p>
         <p>€ {{ camping.price }}/nacht</p>
       </div>
     </div>
+  </router-link>
   </template>
   
   <script>
@@ -20,16 +23,6 @@
         camping: {
         type: Object,
         required: true,
-        validator(camping) {
-          return camping.id && camping.name; 
-        },
-      },
-    },
-    
-
-    methods: {
-      navigateToDetails() {
-        this.$router.push(`/camping/${this.camping.id}`);
       },
     },
   };
@@ -55,34 +48,34 @@
     height: 100%;
     object-fit: cover;
   }
-  /* .carousel-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.5);
-    border: none;
-    cursor: pointer;
-    font-size: 24px;
-    padding: 8px;
-  }
-  .carousel-button:hover {
-    background: white;
-  }
-  .carousel-button:first-of-type {
-    left: 8px;
-  }
-  .carousel-button:last-of-type {
-    right: 8px;
-  } */
   .info {
     padding: 16px;
     background-color: #f9f9f9;
+    height: 100px;
   }
   h3 {
     margin: 0 0 8px 0;
   }
   p {
     margin: 4px 0;
+  }
+  .card {
+    color: inherit;
+    text-decoration: none;
+  }
+  .topline{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+  }
+  h3.leftItem{
+    margin: 0;
+    text-align: left;
+  }
+  h3.rightItem{
+    margin: 0;
+    text-align: right;
   }
   </style>
   
