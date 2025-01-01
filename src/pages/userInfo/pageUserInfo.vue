@@ -59,6 +59,7 @@
     </div>
 </template>
 <script>
+import { mapStores } from 'pinia';
 import { useUserStore } from '@/stores/userStore';
 
 export default {
@@ -74,10 +75,10 @@ export default {
         };
     },
     methods: {
+        
         async initialiseUserData() {
-            const store = useUserStore();
-            await store.fetchUserData();
-            const userStoreData = store.getUserData;
+            await this.userStore.fetchUserData();
+            const userStoreData = this.userStore.getUserData;
             if (userStoreData) {
                 this.user = { ...userStoreData };
             }
@@ -93,18 +94,18 @@ export default {
 
         saveChanges() {
             this.editMode = false;
-            const store = useUserStore();
-            store.updateUserData(this.userData)
+            this.userStore.updateUserData(this.userData)
             .then(data => {
                 console.log('Success:', data);
             })
             .catch(error => {
                 console.error('Error:', error);
-                this.error = store.error || 'Failed to update user';
+                this.error = this.userStore.error || 'Failed to update user';
             });
         },
     },
     computed: {
+        ...mapStores(useUserStore),
         userData() {
             return {
                 firstName: this.user.fn,

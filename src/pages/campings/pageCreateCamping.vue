@@ -61,6 +61,7 @@
   </div>
 </template>
 <script>
+import { mapStores } from 'pinia';
 import { useUserStore } from '@/stores/userStore';
 import { useFacilityStore } from '@/stores/facilityStore';
 // import { mapStores } from 'pinia';
@@ -96,6 +97,7 @@ export default {
 
   },
   computed: {
+    ...mapStores(useUserStore, useFacilityStore),
     campingData() {
       return {
         name: this.camping.name,
@@ -113,29 +115,27 @@ export default {
 
   methods: {
     async fetchFacilities() {
-      const facilityStore = useFacilityStore();
-      await facilityStore.fetchFacilities();
-      if (facilityStore.facilities) {
-        this.facilities = { ...facilityStore.facilities };
+      await this.facilityStore.fetchFacilities();
+      if (this.facilityStore.facilities) {
+        this.facilities = { ...this.facilityStore.facilities };
       }
     },
     submitCamping() {
       //failsave als logout terwijl op pagina
-      const userStore = useUserStore();
-      if (!userStore.token) {
+      if (!this.userStore.token) {
         console.log("no user logged in");
         this.$router.push('/login');
         return false;
       }
       const dataToSend = {
         ...this.campingData,
-        userRole: userStore.currentUserRole,
+        userRole: this.userStore.currentUserRole,
       };
 
       fetch("http://localhost:3100/api/camping", {
         method: "POST",
         headers: {
-          'authorization': `Bearer ${userStore.token}`,
+          'authorization': `Bearer ${this.userStore.token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(dataToSend),

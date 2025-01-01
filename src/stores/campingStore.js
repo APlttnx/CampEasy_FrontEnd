@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-export const useCampingStore = defineStore('campingStore', {
+export const useCampingStore = defineStore('camping', {
     state: () => ({
         campingData: [],
     }),
@@ -13,11 +13,15 @@ export const useCampingStore = defineStore('campingStore', {
                 type: camping.type,
                 size: camping.size,
                 price: camping.price,
-                town: camping.address?.split('|')[3]?.trim(), // Assuming 'address' contains 'town' information
-                country: camping.country,
-                image: camping.image? camping.image : require('@/assets/defaultCamp.webp'),
+                town: camping.address.split('|')[3]?.trim(),
+                image: camping.image ? camping.image : require('@/assets/defaultCamp.webp'),
             }));
         },
+        getCampingById: (state) => (id) => {
+            console.log(id);
+            return state.campings.find(camping => camping.id === id);
+        },
+        
     },
     actions: {
         async fetchCampings() {

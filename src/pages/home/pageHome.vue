@@ -11,6 +11,7 @@
     </div>
 </template>
 <script>
+import { mapStores } from 'pinia';
 import { useUserStore } from '@/stores/userStore';
 import { useCampingStore } from '@/stores/campingStore';
 import campingCardList from '@/components/campingCardList.vue';
@@ -32,20 +33,16 @@ export default{
     },
 
     computed: {
+        ...mapStores(useUserStore, useCampingStore),
         currentUserGreetName() {
-            const uStore = useUserStore();
-            return uStore.currentUserGreetName;
+            return this.userStore.currentUserGreetName;
         },
-        
         campingCardData() {
-        const cStore = useCampingStore();
-        const cardData = cStore.campingCards;
-        return cardData; 
+            const cardData = this.campingStore.campingCards;
+            return cardData; 
         },
-
         isLoading(){
-            const cStore = useCampingStore();
-            return cStore.campingCards.length === 0;
+            return this.campingStore.campingCards.length === 0;
         },
     },
 };

@@ -15,7 +15,7 @@
       <div class="props">
         <div class="propitem">
           <img src="@/assets/icons/Tent.png" class="propImg"/>
-          <p>Tent</p>
+          <p>{{campingDetails.type}}</p>
         </div>
         <div class="propitem">
           <p>50 m²</p>
@@ -52,10 +52,21 @@
 
 
 <script>
-//import { useCampingStore } from '@/stores/campingStore';
+import { useCampingStore } from '@/stores/campingStore';
 
 export default{
 
+  computed: {
+    
+    campingDetails() {
+      const cStore = useCampingStore();
+      return cStore.getCampingById(this.$route.params.id);
+    },
+  },
+
+  methods: {
+
+  },
 };
 
 
