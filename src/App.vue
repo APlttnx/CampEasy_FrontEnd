@@ -4,7 +4,7 @@
     <header>
     <img class="headerPicture" src="./assets/headerAfb.jpg" alt="forest"/>
       <nav>
-        <router-link class="navItem" to="/">Home</router-link>
+        <router-link class="navItem" to="/">CampEasy</router-link>
         <router-link v-if="!isAuthenticated" class="navItem" to="/login">Aanmelden</router-link>
         <router-link v-if="!isAuthenticated" class="navItem" to="/registreren">Registreren</router-link>
         <router-link v-if="isAuthenticated" class="navItem" to="/mijnGegevens">Mijn Gegevens</router-link>

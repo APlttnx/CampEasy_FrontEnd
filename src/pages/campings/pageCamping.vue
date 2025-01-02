@@ -4,47 +4,44 @@
       <div class="imageCamping">
         <img src="@/assets/defaultCamp.webp" />
       </div>
-
-      <div>
-        <p class="address">Nieuwstraat 1, 2630 Aartselaar</p>
+      <div class="addressBox">
+        <p class="address">{{campingDetails.address}}</p>
+        <p class="address">{{campingDetails.country}} </p>
       </div>
 
-      <div class="faciliteiten">
-
+      <div class="faciliteiten" v-show="campingDetails.facilities[0]!=null">
+        <div v-for="(facility,index) in campingDetails.facilities" :key="index" class="faciliteitItem">
+            {{facility}}
+        </div>
       </div>
       <div class="props">
         <div class="propitem">
-          <img src="@/assets/icons/Tent.png" class="propImg"/>
+          <img v-if="campingDetails.type =='Tent'" src="@/assets/icons/Tent.png" class="propImg"/>
+          <img v-else-if="campingDetails.type =='Caravan'" src="@/assets/icons/Camper.png" class="propImg"/>
           <p>{{campingDetails.type}}</p>
         </div>
         <div class="propitem">
-          <p>50 m²</p>
+          <p>{{campingDetails.size}} m²</p>
         </div>
       </div>
       <div>
         <h4>Omschrijving:</h4>
         <div class="textbox">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim
-            sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius
-            a, semper congue, euismod
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim
-            sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius
-            a, semper congue, euismod
+            {{ campingDetails.description }}
           </p>
         </div>
       </div>
       <div class="owner">
-        <p>Aangeboden door: Arnout Plettinx</p>
-        <p>Laatste update: 01/01/2025</p>
+        <p>Aangeboden door: {{campingDetails.firstName}} {{campingDetails.lastName}}</p>
+        <p>Laatste update: {{campingDetails.updateDate}}</p>
       </div>
 
     </div>
 
-
     <div class="rightColumn">
       <div class="costAndBooking">
-        <p>€ 15.00 per nacht</p>
+        <p> {{toCurrency(campingDetails.price) }} per nacht</p>
       </div>
     </div>
   </div>
@@ -52,20 +49,35 @@
 
 
 <script>
+import { mapStores } from 'pinia';
 import { useCampingStore } from '@/stores/campingStore';
+import { toCurrency } from '@/shared/formatters';
 
 export default{
-
+  // data() {
+  //   return{
+  //     camping: [],
+  //   };
+  // },
+  mounted() {
+    this.checkCampingDataPresent();
+  },
   computed: {
+    ...mapStores(useCampingStore),
     
     campingDetails() {
-      const cStore = useCampingStore();
-      return cStore.getCampingById(this.$route.params.id);
+      console.log(this.$route.params.ID);
+      return this.campingStore.getCampingById(this.$route.params.ID);
     },
   },
 
   methods: {
-
+    async checkCampingDataPresent(){
+      if (!this.campingStore.campingData || this.campingStore.campingData.length === 0){
+        await this.campingStore.fetchCampings();
+      }
+    },
+    toCurrency,
   },
 };
 
@@ -105,13 +117,24 @@ img {
 }
 
 .faciliteiten {
-  border: 1px solid #f70101;
-  background-color: #ffffff8e;
-  margin-top: 10px;
-  padding: 20px;
+
+  margin-top: 5px;
+  min-height: 40px;
+  padding: 8px;
   border-radius: 10px;
   display: flex;
   flex-wrap: wrap;
+}
+.faciliteitItem{
+  border: 1px solid #213f05;
+  background-color: #7dc74044;
+  margin: 2px;
+  padding: 2px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 15px;
+  align-content: center;
+
 }
 
 .textbox {
@@ -121,6 +144,7 @@ img {
   min-height: 80px;
   border-radius: 10px;
   padding-left: 8px;
+  
 }
 
 .props{
@@ -164,10 +188,11 @@ p {
 }
 p.address{
   font-size: 20px;
-  margin-left: 10px;
   font-weight: bold;
+  margin-left: 10px;
   margin-top: 15px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
+  margin-right: 20px;
 
 }
 .owner{
@@ -182,5 +207,10 @@ margin:5px
   height:380px;
   border: 1px solid #203801;
   padding: 10px;
+}
+
+.addressBox{
+  display: flex;
+  justify-content: space-between
 }
 </style>

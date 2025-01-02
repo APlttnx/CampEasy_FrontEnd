@@ -49,7 +49,7 @@
         console.log("test");
       },
       validateCountry(country) {
-        console.log("check Validiry");
+        console.log("check Validity");
         this.error = !this.countries.includes(country);
       },
     },

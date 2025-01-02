@@ -18,8 +18,15 @@ export const useCampingStore = defineStore('camping', {
             }));
         },
         getCampingById: (state) => (id) => {
-            console.log(id);
-            return state.campings.find(camping => camping.id === id);
+            if (!state.campingData || state.campingData.length===0) {
+                state.fetchCampings();
+            }
+            const campingDetails = state.campingData.find(campingData => campingData.ID == id);
+            const addressParts = campingDetails.address.split(' | ');
+            if (addressParts.length === 4) {
+                campingDetails.address = `${addressParts[0]} ${addressParts[1]}, ${addressParts[2]} ${addressParts[3]}`;
+            }
+            return campingDetails;
         },
         
     },
@@ -36,8 +43,8 @@ export const useCampingStore = defineStore('camping', {
                 });
                 if (!response.ok) throw new Error('Failed to fetch campings');
                 this.campingData = await response.json();
-                // console.log("pinia data");
-                // console.log(this.campingData);
+                console.log("pinia data");
+                console.log(this.campingData);
             } catch (error) {
                 this.error = error.message;
                 this.campingData = [];
