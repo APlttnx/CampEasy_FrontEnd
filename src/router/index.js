@@ -7,7 +7,7 @@ import CreateCampingPage from '../pages/campings/pageCreateCamping.vue';
 import CampingPage from '../pages/campings/pageCamping.vue';
 
 
-export default createRouter({
+const router = createRouter({
     history: createWebHashHistory(), // gebruik hashtag routing ipv html5 routing
     routes: [
         {
@@ -48,3 +48,14 @@ export default createRouter({
         },
     ],
 });
+
+router.beforeEach((to, from, next) => {
+    if (from.name && to.name == 'Login' && from.name !='Login') {
+      localStorage.setItem('lastVisitedRoute', from.fullPath);
+    }
+    console.log(from.fullPath);
+    next();
+});
+
+
+export default router;

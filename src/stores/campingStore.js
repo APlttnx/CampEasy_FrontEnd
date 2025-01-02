@@ -18,15 +18,12 @@ export const useCampingStore = defineStore('camping', {
             }));
         },
         getCampingById: (state) => (id) => {
-            if (!state.campingData || state.campingData.length===0) {
-                state.fetchCampings();
-            }
             const campingDetails = state.campingData.find(campingData => campingData.ID == id);
             const addressParts = campingDetails.address.split(' | ');
-            if (addressParts.length === 4) {
-                campingDetails.address = `${addressParts[0]} ${addressParts[1]}, ${addressParts[2]} ${addressParts[3]}`;
-            }
-            return campingDetails;
+            const fullAddress = addressParts.length === 4 
+                ? `${addressParts[0]} ${addressParts[1]}, ${addressParts[2]} ${addressParts[3]}`
+                : campingDetails.address;
+            return {...campingDetails, address: fullAddress};
         },
         
     },

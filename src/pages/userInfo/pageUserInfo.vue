@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <form>
         <div>
             <label for="_role">Rol: </label>
             <label for="input_user">gebruiker: </label>
@@ -56,7 +56,7 @@
         <button v-show="!editMode" @click="activateEditMode()">Aanpassen</button>
         <button v-show="editMode" @click="cancelChanges()">Annuleren</button>
         <button v-show="editMode" @click="saveChanges()">Opslaan</button>
-    </div>
+    </form>
 </template>
 <script>
 import { mapStores } from 'pinia';

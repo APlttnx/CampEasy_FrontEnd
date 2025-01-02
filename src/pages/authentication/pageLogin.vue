@@ -34,8 +34,11 @@
         async handleLogin() {
             const store = useUserStore();
             const success = await store.login(this.credentials);
-
-            success ? this.$router.push('/') : this.error = store.error;
+            console.log(success);
+            let lastRoute = localStorage.getItem('lastVisitedRoute') || '/';
+            lastRoute = lastRoute == '/registreren' ? '/' : lastRoute;
+            console.log(lastRoute);
+            success ? this.$router.push(lastRoute) : this.error = store.error;
         },
     },
     

@@ -193,6 +193,16 @@ button:hover {
   background-color: #4a8;
 }
 
+button:disabled {
+  cursor: not-allowed;
+}
+
+.btn-disabled {
+  background-color: transparent;  /* Clear background */
+  color: #bdc3c7;                  /* Light gray color */
+  border: 1px solid #bdc3c7;       /* Light gray border */
+}
+
 .inline-group {
   display: flex;
   justify-content: space-between;
