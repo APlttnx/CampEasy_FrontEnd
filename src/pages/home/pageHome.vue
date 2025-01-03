@@ -1,12 +1,10 @@
 <template>
     <div class="content"> 
-    <div class="greeting">
-        Welkom {{ currentUserGreetName }}!
-    </div> 
-    <div v-if="isLoading">Loading...</div>
-    <campingCardList v-else :campings="campingCardData" />
-
-
+        <div class="greeting">
+            Welkom {{ currentUserGreetName }}!
+        </div> 
+        <div v-if="isLoading">Loading...</div>
+        <campingCardList v-else :campings="campingCardData" />
 
     </div>
 </template>
