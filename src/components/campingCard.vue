@@ -1,22 +1,33 @@
 <template>
   <router-link class="card" :to="{name: 'CampingDetails', params: {ID: camping.ID }}">
-    <div class="camping-card">
+
+    <div :class="camping.ownerID == userStore.iD? 'owner-card' : 'camping-card'">
+      <!-- {{HIER ONDERSCHEID MAKEN -> EIGENAAR CAMPING = BLAUWE RAND plus aantal andere knoppen}} -->
+      
       <div class="image-camping">
         <img :src="camping.image || require('@/assets/headerAfb.jpg')" alt="Camping Image" />
       </div>
       <div class="info">
-        <div class="topline">
+        <div class="infoBox">
           <h3 class="leftItem">{{ camping.name }}</h3>
           <h3 class="rightItem">{{ camping.town }}</h3>
         </div>
-        <p>{{ camping.size }} m²</p>
-        <p>€ {{ camping.price }}/nacht</p>
+        <div class = "infoBox">
+          <div>
+            <p>{{ camping.size }} m²</p>
+            <p>€ {{ camping.price }}/nacht</p>
+          </div>
+          <img v-if="camping.type == 'Tent'" src="@/assets/icons/Tent.png" class="propImg1" />
+          <img v-else-if="camping.type == 'Caravan'" src="@/assets/icons/Camper.png" class="propImg2" />
+        </div>
       </div>
     </div>
   </router-link>
   </template>
   
   <script>
+  import { useUserStore } from '@/stores/userStore';
+  import { mapStores } from 'pinia';
   export default {
     name: 'CampingCard',
     props: {
@@ -25,6 +36,13 @@
         required: true,
       },
     },
+  
+    computed: {
+      ...mapStores(useUserStore),
+    },
+
+    
+
   };
   </script>
   
@@ -37,6 +55,9 @@
     max-width: 300px;
     min-width: 300px;
     margin: 20px;
+  }
+  .camping-card#owner-card {
+    border: 2px solid #04ddfa;
   }
   .image-camping {
     position: relative;
@@ -63,7 +84,7 @@
     color: inherit;
     text-decoration: none;
   }
-  .topline{
+  .infoBox{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -76,6 +97,17 @@
   h3.rightItem{
     margin: 0;
     text-align: right;
+  }
+
+  .propImg1 {
+    height: 45px;
+    width: auto;
+    padding: 10px;
+  }
+  .propImg2 {
+    height: 35px;
+    width: auto;
+    padding: 10px;
   }
   </style>
   

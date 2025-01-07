@@ -7,11 +7,10 @@
       </div>
       <div class="inputform">
         <label for="input_type">Type: </label>
-        <input list="typesCampings" v-model="camping.type" id="input_type">
-        <datalist id="typesCampings">
-          <option value="Tent" />
-          <option value="Caravan" />
-        </datalist>
+        <select  v-model="camping.type" id="input_type">
+          <option value="Tent">Tent</option>
+          <option value="Caravan">Caravan</option>
+        </select>
       </div>
       <div class="inputform">
         <label for="input_size">Grootte: </label>

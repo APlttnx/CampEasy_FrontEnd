@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 export const useCampingStore = defineStore('camping', {
     state: () => ({
         campingData: [],
+        ownCampingData: [],
     }),
 
     getters: {
@@ -14,6 +15,7 @@ export const useCampingStore = defineStore('camping', {
                 size: camping.size,
                 price: camping.price,
                 town: camping.address.split('|')[3]?.trim(),
+                ownerID: camping.ownerID,
                 image: camping.image ? camping.image : require('@/assets/defaultCamp.webp'),
             }));
         },

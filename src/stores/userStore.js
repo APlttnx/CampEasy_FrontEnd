@@ -44,6 +44,7 @@ export const useUserStore = defineStore('user', {
                 this.token = result.token;
                 this.currentUserRole = result.userRole;
                 this.currentUserGreetName = result.userGreetName;
+                this.currentUserID = result.userID;
 
                 // Store in localStorage
                 localStorage.setItem('token', result.token);

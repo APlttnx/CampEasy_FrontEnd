@@ -41,11 +41,11 @@ const router = createRouter({
             component: CampingPage,
         },
 
-        //default
-        {
-            name: 'Home',
-            component: HomePage,
-        },
+        // //default
+        // {
+        //     name: 'Home',
+        //     component: HomePage,
+        // },
     ],
 });
 

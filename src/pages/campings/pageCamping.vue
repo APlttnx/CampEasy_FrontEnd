@@ -64,7 +64,7 @@
         </div>
         <p>
           <input type="checkbox" v-model="accepted" />
-          Ik ga akkoord met de servicevoorwaarden
+          Ik ga akkoord met de <a href="/serviceAgreement.txt" target="_blank">servicevoorwaarden</a>
         </p>
         <p class="bookwarning" v-show="accepted && !this.userStore.token">Log eerst in voordat u boekt!</p>
         <p class="bookwarning" v-show="accepted && !isValidDate">Datums ongeldig: zorg ervoor dat de einddatum achter de startdatum ligt!</p>
@@ -111,6 +111,7 @@ export default {
     Datepicker,
   },
   computed: {
+
     ...mapStores(useCampingStore, useUserStore),
     minDate() {
     return (addDay(this.pickedStartDate));
@@ -174,6 +175,7 @@ export default {
         
         bookedDateRanges.forEach(({startDate, endDate}) => {
           let iDate = new Date(startDate);
+          iDate = addDay(iDate);
           const limitDate = new Date(endDate);
           while (iDate <= limitDate) {
             this.unavailableDates.push(iDate);

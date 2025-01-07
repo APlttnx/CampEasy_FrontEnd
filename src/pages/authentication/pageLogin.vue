@@ -18,9 +18,12 @@
   </template>
   <script>
   import { useUserStore } from '@/stores/userStore';
-
+  import { mapStores } from 'pinia';
   export default {
     name: 'LoginPage',
+    created() {
+        this.userStore.isAuthenticated ? this.$router.push(this.lastRoute) : true;
+    },
     data() {
         return {
             credentials: {
@@ -30,19 +33,22 @@
             error:'',
         };
     },
-    methods: {
-        async handleLogin() {
-            const store = useUserStore();
-            const success = await store.login(this.credentials);
-            console.log(success);
+    computed: {
+        ...mapStores(useUserStore),
+        lastRoute() {
             let lastRoute = localStorage.getItem('lastVisitedRoute') || '/';
             lastRoute = lastRoute == '/registreren' ? '/' : lastRoute;
-            console.log(lastRoute);
-            success ? this.$router.push(lastRoute) : this.error = store.error;
+            return lastRoute;
         },
     },
-    
-    
+    methods: {
+        async handleLogin() {
+            const success = await this.userStore.login(this.credentials);
+            console.log(success);
+            console.log(this.lastRoute);
+            success ? this.$router.push(this.lastRoute) : this.error = this.userStore.error;
+        },
+    },
     };
   
   </script>

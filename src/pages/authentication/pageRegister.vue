@@ -69,8 +69,15 @@
 </template>
 <script>
 import countrySelector from '@/components/countrySelector.vue';
+import { useUserStore } from '@/stores/userStore';
 export default {
   name: 'RegisterPage',
+  created() {
+        const userStore = useUserStore();
+        const lastRoute = localStorage.getItem('lastVisitedRoute') || '/';
+        console.log(userStore.isAuthenticated );
+        userStore.isAuthenticated ? this.$router.push(lastRoute) : true;
+    },
   data() {
     return {
       user: {
@@ -91,7 +98,6 @@ export default {
       },
     };
   },
-
   components: {
     countrySelector,
   },
@@ -99,7 +105,7 @@ export default {
     // fullAddress() {
     //   return `${this.user.street} | ${this.user.streetnr} | ${this.user.postcode} | ${this.user.town}`;
     // },
-
+    
     userData() {
       return {
         firstName: this.user.fn,
@@ -139,6 +145,7 @@ export default {
         .then(data => {
           // Handle success
           console.log('Success:', data);
+          this.$router.push('/login');
         })
         .catch(error => {
           // Handle error
@@ -198,9 +205,9 @@ button:disabled {
 }
 
 .btn-disabled {
-  background-color: transparent;  /* Clear background */
-  color: #bdc3c7;                  /* Light gray color */
-  border: 1px solid #bdc3c7;       /* Light gray border */
+  background-color: transparent;  
+  color: #bdc3c7;                
+  border: 1px solid #bdc3c7;       
 }
 
 .inline-group {
