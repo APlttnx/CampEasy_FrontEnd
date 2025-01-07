@@ -9,8 +9,8 @@
         <router-link v-if="!isAuthenticated" class="navItem" to="/registreren">Registreren</router-link>
         <router-link v-if="isAuthenticated" class="navItem" to="/mijnGegevens">Mijn Gegevens</router-link>
         <router-link v-if="isAuthenticated" class="navItem" to="/overzichtBoekingen">Mijn Boekingen</router-link>
-        <router-link v-if="isAuthenticated" class="navItem" to="/campingAanmaken">Camping Aanmaken</router-link>
         <router-link v-if="isAuthenticated && this.userStore.currentUserRole == 'owner'" class="navItem" to="/mijnCampings">Mijn Campings</router-link>
+        <router-link v-if="isAuthenticated" class="navItem" to="/campingAanmaken">Camping Aanmaken</router-link>
         <a v-if="isAuthenticated" @click="logout()" class="navItem" href="#">Afmelden</a>
         
       </nav>
