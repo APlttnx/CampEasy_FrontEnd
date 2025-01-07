@@ -23,10 +23,9 @@ export default{
     },
     methods: {
         async initiliazeCampingData() {
-            const cStore = useCampingStore();
-            await cStore.fetchCampings();
-            // console.log("homepage data: ");
-            // console.log(cStore.campingCards);
+            if (this.campingStore.campingData.length==0){
+                await this.campingStore.fetchCampings();
+            }
         },
     },
 

@@ -5,6 +5,7 @@ import LoginPage from '../pages/authentication/pageLogin.vue';
 import UserInfoPage from '../pages/userInfo/pageUserInfo.vue';
 import CreateCampingPage from '../pages/campings/pageCreateCamping.vue';
 import CampingPage from '../pages/campings/pageCamping.vue';
+import UserBookingsPage from '../pages/campings/pageUserBookingsOverview.vue';
 
 
 const router = createRouter({
@@ -39,6 +40,11 @@ const router = createRouter({
             path: '/camping/:ID',
             name: 'CampingDetails',
             component: CampingPage,
+        },
+        {
+            path: '/overzichtBoekingen',
+            name: 'UserBookingsOverview',
+            component: UserBookingsPage,
         },
 
         // //default

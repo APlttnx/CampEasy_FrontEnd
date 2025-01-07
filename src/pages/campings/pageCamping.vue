@@ -2,7 +2,7 @@
   <div class="campingSplit" v-if="!isLoading">
     <div class="leftColumn">
       <div class="imageCamping">
-        <img src="@/assets/defaultCamp.webp" />
+        <img src="@/assets/irlFotoTest.jpg" />
       </div>
       <div class="addressBox">
         <p class="address">{{ campingDetails.address }}</p>
@@ -66,9 +66,9 @@
           <input type="checkbox" v-model="accepted" />
           Ik ga akkoord met de <a href="/serviceAgreement.txt" target="_blank">servicevoorwaarden</a>
         </p>
-        <p class="bookwarning" v-show="accepted && !this.userStore.token">Log eerst in voordat u boekt!</p>
-        <p class="bookwarning" v-show="accepted && !isValidDate">Datums ongeldig: zorg ervoor dat de einddatum achter de startdatum ligt!</p>
-        <p class="bookwarning" v-show="accepted && !isNoOverbooking">Iemand anders heeft deze periode al geboekt!</p>
+        <p class="bookWarning" v-show="accepted && !this.userStore.token">Log eerst in voordat u boekt!</p>
+        <p class="bookWarning" v-show="accepted && !isValidDate">Datums ongeldig: zorg ervoor dat de einddatum achter de startdatum ligt!</p>
+        <p class="bookWarning" v-show="accepted && !isNoOverbooking">Iemand anders heeft deze periode al geboekt!</p>
         <button @click="this.createBooking()" :disabled="!isGoodToGo" :class="{ 'btn-disabled': !isGoodToGo }">
           BOEKEN
         </button>
@@ -105,7 +105,7 @@ export default {
   //   this.checkCampingDataPresent();
   // },
   created() {
-    this.initialiseData();
+    this.initializeData();
   },
   components: {
     Datepicker,
@@ -149,7 +149,7 @@ export default {
   },
 
   methods: {
-    async initialiseData() {
+    async initializeData() {
       await this.checkCampingDataPresent();
       this.fetchBookings();
     },
@@ -407,7 +407,7 @@ p.address {
   margin-bottom: 10px;
 }
 
-p.bookwarning{
+p.bookWarning{
   color: red;
   font-size: 12px;
 }

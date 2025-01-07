@@ -8,8 +8,10 @@
         <router-link v-if="!isAuthenticated" class="navItem" to="/login">Aanmelden</router-link>
         <router-link v-if="!isAuthenticated" class="navItem" to="/registreren">Registreren</router-link>
         <router-link v-if="isAuthenticated" class="navItem" to="/mijnGegevens">Mijn Gegevens</router-link>
+        <router-link v-if="isAuthenticated" class="navItem" to="/overzichtBoekingen">Mijn Boekingen</router-link>
+        <router-link v-if="isAuthenticated" class="navItem" to="/campingAanmaken">Camping aanmaken</router-link>
         <a v-if="isAuthenticated" @click="logout()" class="navItem" href="#">Afmelden</a>
-        <router-link v-if="isAuthenticated" class="navItem" to="/campingAanmaken">Temp Camping aanmaken</router-link>
+        
       </nav>
     </header>
     <main>

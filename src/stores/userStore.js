@@ -113,7 +113,7 @@ export const useUserStore = defineStore('user', {
                     return Promise.reject(errorData);
                 }
 
-                // Refresh user data after successful update
+                // Refresh user data
                 await this.fetchUserData();
                 const successData = await response.json();
                 return successData;

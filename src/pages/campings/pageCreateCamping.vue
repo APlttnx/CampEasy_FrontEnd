@@ -63,6 +63,7 @@
 import { mapStores } from 'pinia';
 import { useUserStore } from '@/stores/userStore';
 import { useFacilityStore } from '@/stores/facilityStore';
+import { useCampingStore } from '@/stores/campingStore';
 // import { mapStores } from 'pinia';
 import imageUpload from '@/components/imageUpload.vue';
 import countrySelector from '@/components/countrySelector.vue';
@@ -96,7 +97,7 @@ export default {
 
   },
   computed: {
-    ...mapStores(useUserStore, useFacilityStore),
+    ...mapStores(useUserStore, useFacilityStore, useCampingStore),
     campingData() {
       return {
         name: this.camping.name,
@@ -148,6 +149,7 @@ export default {
         .then(data => {
           // Handle success
           console.log('Success:', data);
+          this.campingStore.fetchCampings;
         })
         .catch(error => {
           // Handle error
