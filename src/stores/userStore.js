@@ -88,6 +88,8 @@ export const useUserStore = defineStore('user', {
             console.log("updating user:");
             if (!this.token) return;
             try {
+                localStorage.setItem('userGreetName', userData.preferredName);
+                this.userGreetName = userData.preferredName;
                 const response = await fetch(`http://localhost:3100/api/users/`, {
                     method: 'PUT',
                     headers: {

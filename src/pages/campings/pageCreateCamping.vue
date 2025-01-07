@@ -64,6 +64,7 @@ import { mapStores } from 'pinia';
 import { useUserStore } from '@/stores/userStore';
 import { useFacilityStore } from '@/stores/facilityStore';
 import { useCampingStore } from '@/stores/campingStore';
+import { delay } from '@/shared/formatters';
 // import { mapStores } from 'pinia';
 import imageUpload from '@/components/imageUpload.vue';
 import countrySelector from '@/components/countrySelector.vue';
@@ -120,7 +121,7 @@ export default {
         this.facilities = { ...this.facilityStore.facilities };
       }
     },
-    submitCamping() {
+    async submitCamping() {
       //failsave als logout terwijl op pagina
       if (!this.userStore.token) {
         console.log("no user logged in");
@@ -132,7 +133,7 @@ export default {
         userRole: this.userStore.currentUserRole,
       };
 
-      fetch("http://localhost:3100/api/camping", {
+      await fetch("http://localhost:3100/api/camping", {
         method: "POST",
         headers: {
           'authorization': `Bearer ${this.userStore.token}`,
@@ -150,11 +151,13 @@ export default {
           // Handle success
           console.log('Success:', data);
           this.campingStore.fetchCampings;
+          this.userStore.currentUserRole = 'owner';
         })
         .catch(error => {
           // Handle error
           console.error('Error:', error);
         });
+        await delay(2000);
       this.clearForm();
     },
     clearForm() {
@@ -172,7 +175,7 @@ export default {
       };
       this.images = [];
       this.selectedFacilities = [];
-      this.$router.push('/');
+      this.$router.push('/mijnCampings');
     },
   },
 };

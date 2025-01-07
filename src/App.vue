@@ -9,7 +9,8 @@
         <router-link v-if="!isAuthenticated" class="navItem" to="/registreren">Registreren</router-link>
         <router-link v-if="isAuthenticated" class="navItem" to="/mijnGegevens">Mijn Gegevens</router-link>
         <router-link v-if="isAuthenticated" class="navItem" to="/overzichtBoekingen">Mijn Boekingen</router-link>
-        <router-link v-if="isAuthenticated" class="navItem" to="/campingAanmaken">Camping aanmaken</router-link>
+        <router-link v-if="isAuthenticated" class="navItem" to="/campingAanmaken">Camping Aanmaken</router-link>
+        <router-link v-if="isAuthenticated && this.userStore.currentUserRole == 'owner'" class="navItem" to="/mijnCampings">Mijn Campings</router-link>
         <a v-if="isAuthenticated" @click="logout()" class="navItem" href="#">Afmelden</a>
         
       </nav>
@@ -22,7 +23,7 @@
 
 <script>
 import { useUserStore } from './stores/userStore';
-
+import { mapStores } from 'pinia';
 
 export default {
   name: "app",
@@ -33,17 +34,17 @@ export default {
       
     };
   },
+  
   methods: {
     logout() {
-      const userStore = useUserStore();
-      userStore.logout();
+    this.userStore.logout();
       this.$router.push('/');
     },
   },
   computed: {
+    ...mapStores(useUserStore),
     isAuthenticated() {
-      const userStore = useUserStore();
-      return userStore.isAuthenticated;
+      return this.userStore.isAuthenticated;
     },
   },
 };

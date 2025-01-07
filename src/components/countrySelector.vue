@@ -1,7 +1,7 @@
 <template>
     <div>
       <label for="input_country">Land: </label>
-      <input type="text" :value="modelValue" list="countryList" @input="OnInputChange"  >
+      <input type="text" :value="modelValue" list="countryList" @input="onInputChange"  >
       <datalist id="countryList">
         <option v-for="country in countries" :key="country" :value="country" />
       </datalist>
@@ -43,13 +43,11 @@
           console.error('Failed to fetch countries:', error);
         }
       },
-      OnInputChange(event) {
+      onInputChange(event) {
         this.$emit('update:modelValue', event.target.value); // Emit the updated value
         this.validateCountry(event.target.value); // Validate country
-        console.log("test");
       },
       validateCountry(country) {
-        console.log("check Validity");
         this.error = !this.countries.includes(country);
       },
     },

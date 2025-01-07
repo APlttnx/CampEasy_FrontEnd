@@ -6,6 +6,8 @@ import UserInfoPage from '../pages/userInfo/pageUserInfo.vue';
 import CreateCampingPage from '../pages/campings/pageCreateCamping.vue';
 import CampingPage from '../pages/campings/pageCamping.vue';
 import UserBookingsPage from '../pages/campings/pageUserBookingsOverview.vue';
+import OwnerCampingsPage from '../pages/campings/pageOwnerCampings.vue';
+
 
 
 const router = createRouter({
@@ -45,6 +47,11 @@ const router = createRouter({
             path: '/overzichtBoekingen',
             name: 'UserBookingsOverview',
             component: UserBookingsPage,
+        },
+        {
+            path: '/mijnCampings',
+            name: 'OwnerCampings',
+            component: OwnerCampingsPage,
         },
 
         // //default

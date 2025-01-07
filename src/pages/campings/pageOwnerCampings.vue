@@ -1,14 +1,11 @@
 <template>
     <div class="content"> 
         <div class="greeting">
-            Jouw boekingen:
+            Jouw campings:
         </div> 
         <div v-if="isLoading">Loading...</div>
         <div v-else>
-            <campingCardList :campings="campingCardData.presentBookings" />
-        <hr>
-            <div class="greeting">Afgelopen boekingen:</div>
-            <campingCardList  :campings="campingCardData.pastBookings" />
+            <campingCardList :campings="campingCardData" />
         </div>
     </div>
 </template>
@@ -18,10 +15,10 @@ import { useUserStore } from '@/stores/userStore';
 import { useCampingStore } from '@/stores/campingStore';
 import campingCardList from '@/components/campingCardList.vue';
 export default{
-    name: 'userBookingsOverview',
+    name: 'OwnerCampingPage',
     created() {
         this.campingStore.campingData.length != 0 || this.fetchCampings();
-        this.userStore.token ? this.fetchBookingsData() : this.$router.push('/');
+        this.userStore.token && this.userStore.currentUserRole === "owner" ? this.fetchYourCampings() : this.$router.push('/');
     },
     components: {
         campingCardList,
@@ -33,7 +30,7 @@ export default{
             if (this.isLoading){
                 return [];
             }
-            const cardData = this.campingStore.bookedCampingCards;
+            const cardData = this.campingStore.ownerCampingCards;
             return cardData; 
         },
 
@@ -45,8 +42,8 @@ export default{
         async fetchCampings(){
            await this.campingStore.fetchCampings();
         },
-        async fetchBookingsData(){
-            await this.campingStore.fetchBookingsData();
+        async fetchYourCampings(){
+            await this.campingStore.fetchOwnerCampings();
         },
     },
     

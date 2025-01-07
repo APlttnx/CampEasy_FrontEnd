@@ -7,6 +7,7 @@ export const useCampingStore = defineStore('camping', {
     state: () => ({
         campingData: [],
         ownCampingData: [],
+        ownerTotalEarnings: '',
         bookings: [],
     }),
 
@@ -48,30 +49,28 @@ export const useCampingStore = defineStore('camping', {
                 };
                 formatDate(card.endDate) >= new Date() ? presentBookings.push(card) : pastBookings.push(card);
             }); 
-            console.log('ARRAY CHECKS');
-            console.log(presentBookings);
-            console.log(pastBookings);
             return {presentBookings, pastBookings};
         },
-
-
-        // bookedCampingCards: (state) => {
-        //     return state.bookings.map(booking =>{
-        //         const camping = state.campingData.find(camping=>camping.ID === booking.campingID);
-        //         return {
-        //             ID: camping.ID,
-        //             name: camping.name,
-        //             type: camping.type,
-        //             size: camping.size,
-        //             price: camping.price,
-        //             town: camping.address.split('|')[3]?.trim(),
-        //             ownerID: camping.ownerID,
-        //             image: camping.image ? camping.image : require('@/assets/defaultCamp.webp'),
-        //             startDate: booking.startDate,
-        //             endDate: booking.endDate,
-        //         };
-        //     });
-        // },
+        ownerCampingCards: (state) => {
+            const campingCards = [];
+            if (state.ownCampingData.length === 0 || state.campingData.length ===0) return campingCards;
+            state.ownCampingData.forEach(ownedCamping =>{
+                const camping = state.campingData.find(camping=>camping.ID === ownedCamping.ID);
+                const card = {
+                    ID: camping.ID,
+                    name: camping.name,
+                    type: camping.type,
+                    size: camping.size,
+                    price: camping.price,
+                    town: camping.address.split('|')[3]?.trim(),
+                    ownerID: camping.ownerID,
+                    image: camping.image ? camping.image : require('@/assets/irlFotoTest.jpg'),
+                    earnings: ownedCamping.campingEarnings,
+                };
+                campingCards.push(card);
+            });
+            return campingCards;
+        },
         
     },
     actions: {
@@ -109,6 +108,28 @@ export const useCampingStore = defineStore('camping', {
             } catch (error) {
                 this.error = error.message;
                 this.bookings = [];
+            }
+        },
+        async fetchOwnerCampings(){
+            try{
+                const userStore = useUserStore();
+                if (!userStore.token) throw new Error('Gebruiker is niet ingelogd');
+                console.log("fetching campingdata owner");
+                const response = await fetch(`http://localhost:3100/api/ownerCampings/`, {
+                    method: 'GET',
+                    headers: {
+                        'authorization': `Bearer ${userStore.token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+                if (!response.ok) throw new Error('Failed to fetch campings');
+                const result = await response.json();
+                this.ownerTotalEarnings = result.totalEarnings;
+                this.ownCampingData = result.campingEarnings;
+            } catch (error) {
+                this.error = error.message;
+                this.ownCampingData = [];
+                this.ownerTotalEarnings = '';
             }
         },
         
