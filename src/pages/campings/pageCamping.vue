@@ -184,8 +184,11 @@ export default {
         bookedDateRanges.forEach(({startDate, endDate}) => {
           let iDate = new Date(startDate);
           // iDate = addDay(iDate);
+
           const limitDate = new Date(endDate);
-          while (iDate <= addDay(limitDate)) {
+          console.log(iDate);
+          console.log(limitDate);
+          while (iDate <= limitDate) {
             this.unavailableDates.push(iDate);
             iDate = addDay(iDate);
           }
@@ -204,16 +207,20 @@ export default {
       //voor de zekerheid nakijken dat tijd op 0 staat
       const startDate = this.pickedStartDate;
       startDate.setHours(0,0,0,0);
+      console.log(startDate);
       const endDate = this.pickedEndDate;
       endDate.setHours(0,0,0,0);
+      console.log(endDate);
+
+      const adjustedStartDate = new Date(startDate.getTime() - (startDate.getTimezoneOffset() * 60000)).toISOString();
+      const adjustedEndDate = new Date(endDate.getTime() - (endDate.getTimezoneOffset() * 60000)).toISOString();
 
       const dataToSend = {
-        startDate: startDate,
-        endDate: endDate,
+        startDate: adjustedStartDate,
+        endDate: adjustedEndDate,
         campingId: this.campingDetails.ID,
         totalPrice: this.totalPrice,
       };
-      //console.log(dataToSend);
 
       fetch("http://localhost:3100/api/bookings", {
         method: "POST",
