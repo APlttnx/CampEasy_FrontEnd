@@ -79,19 +79,18 @@ main {
 
 
 nav {
-  list-style: none; /* Remove bullet points */
+  list-style: none;
   margin: 0;
   padding: 8px;
-  display: flex; /* Makes the nav horizontal */
-  background-color: #123524; /* Navbar background color */
-  justify-content: center; /* Center items horizontally */
-  align-items: center; /* Center items vertically */
+  display: flex;
+  background-color: #123524;
+  justify-content: center; 
+  align-items: center; 
   height: 30px;
 }
 
-/* Individual Nav Items */
 .navItem {
-  margin: 0 15px; /* Space between nav items */
+  margin: 0 15px; 
   color: #EFE3C2;
   text-decoration: underline;
 }

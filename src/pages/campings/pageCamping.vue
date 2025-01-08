@@ -1,5 +1,5 @@
 <template>
-  <div class="campingSplit" v-if="!isLoading">
+  <div :class="isTheOwner ? 'campingSplitOwner' : 'campingSplitUser'" v-if="!isLoading">
     <div class="leftColumn">
       <div class="imageCamping">
         <img src="@/assets/irlFotoTest.jpg" />
@@ -41,8 +41,10 @@
 
     <div class="rightColumn">
       <div class="costAndBooking">
-        <h4 class="hoofdingBoeking">BOEK HIER:</h4>
-
+        <h4 class="hoofdingBoeking">
+          <span v-if="isTheOwner">RESERVEER JE CAMPING</span>
+          <span v-else>BOEK HIER:</span>
+        </h4>
         <div class="booking">
           <div class="datePickerBox">
             <div class="datePickerItem">
@@ -70,7 +72,8 @@
         <p class="bookWarning" v-show="accepted && !isValidDate">Datums ongeldig: zorg ervoor dat de einddatum achter de startdatum ligt!</p>
         <p class="bookWarning" v-show="accepted && !isNoOverbooking">Iemand anders heeft deze periode al geboekt!</p>
         <button @click="this.createBooking()" :disabled="!isGoodToGo" :class="{ 'btn-disabled': !isGoodToGo }">
-          BOEKEN
+          <span v-if="isTheOwner">RESERVEREN</span>
+          <span v-else>BOEKEN</span>
         </button>
       </div>
     </div>
@@ -92,18 +95,14 @@ export default {
     pickedStartDate.setHours(0,0,0,0);
     let pickedEndDate = new Date();
     pickedEndDate = addDay(pickedStartDate);
-    console.log('einddatum');
-    console.log(pickedEndDate);
     return {
       pickedStartDate,
       pickedEndDate,
       unavailableDates: [],
       accepted: false,
+      isTheOwner: false,
     };
   },
-  // mounted() {
-  //   this.checkCampingDataPresent();
-  // },
   created() {
     this.initializeData();
   },
@@ -123,7 +122,8 @@ export default {
       return Math.max((this.pickedEndDate - this.pickedStartDate) / (24 * 60 * 60 * 1000),0);
     },
     totalPrice() {
-      return Math.max(this.amountOfNights * this.campingDetails.price, 0);
+      const result = !this.isTheOwner ? Math.max(this.amountOfNights * this.campingDetails.price, 0) : 0;
+      return result;
     },
     isValidDate() {
       return this.pickedEndDate > this.pickedStartDate;
@@ -151,7 +151,8 @@ export default {
   methods: {
     async initializeData() {
       await this.checkCampingDataPresent();
-      this.fetchBookings();
+      await this.fetchBookings();
+      await this.checkOwner();
     },
     async checkCampingDataPresent() {
       if (!this.campingStore.campingData || this.campingStore.campingData.length === 0) {
@@ -159,8 +160,15 @@ export default {
         await this.campingStore.fetchCampings();
       }
     },
+    async checkOwner() {
+      if ((!this.campingStore.ownCampingData || this.campingStore.ownCampingData.length === 0) && this.userStore.currentUserRole == 'owner') {
+        await this.campingStore.fetchOwnerCampings();
+      }
+    this.isTheOwner = this.campingStore.isTheOwner(this.campingDetails.ID);
+    console.log(this.isTheOwner);
+    },
+    
     async fetchBookings() {
-      console.log('test');
       try {
         console.log(`fetching bookings for camping: ${this.campingDetails.ID} `);
         const response = await fetch(`http://localhost:3100/api/bookedDates?campingID=${this.campingDetails.ID}`, {
@@ -175,9 +183,9 @@ export default {
         
         bookedDateRanges.forEach(({startDate, endDate}) => {
           let iDate = new Date(startDate);
-          iDate = addDay(iDate);
+          // iDate = addDay(iDate);
           const limitDate = new Date(endDate);
-          while (iDate <= limitDate) {
+          while (iDate <= addDay(limitDate)) {
             this.unavailableDates.push(iDate);
             iDate = addDay(iDate);
           }
@@ -227,8 +235,6 @@ export default {
           console.error('Error:', error);
         });
     },
-
-    
     toCurrency,
   },
 };
@@ -236,12 +242,18 @@ export default {
 
 
 <style scoped>
-.campingSplit {
+.campingSplitUser {
   display: flex;
   width: 100%;
   justify-content: space-between;
   column-gap: 20px;
-
+}
+.campingSplitOwner {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  column-gap: 20px;
+  border: 1px dotted blue
 }
 
 .leftColumn {

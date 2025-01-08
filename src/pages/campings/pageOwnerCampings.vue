@@ -1,8 +1,15 @@
 <template>
     <div class="content"> 
-        <div class="greeting">
-            Jouw campings:
-        </div> 
+        <div class="flex">
+            <!-- voor verdeling titel -> even groot vak links zetten als rechts -->
+            <div class="totalEarnings"></div> 
+            <div class="greeting">
+                Jouw campings:
+            </div> 
+            <div class="totalEarnings">
+                Totaal: {{ toCurrency(campingStore.ownerTotalEarnings) }}
+            </div>
+        </div>
         <div v-if="isLoading">Loading...</div>
         <div v-else>
             <campingCardList :campings="ownerCampingCardData" />
@@ -14,6 +21,7 @@ import { mapStores } from 'pinia';
 import { useUserStore } from '@/stores/userStore';
 import { useCampingStore } from '@/stores/campingStore';
 import campingCardList from '@/components/campingCardList.vue';
+import { toCurrency } from '@/shared/formatters';
 export default{
     name: 'OwnerCampingPage',
     created() {
@@ -45,13 +53,24 @@ export default{
         async fetchYourCampings(){
             await this.campingStore.fetchOwnerCampings();
         },
+        toCurrency,
     },
     
     
 };
 </script>
 
-<style>
-
+<style scoped>
+.flex{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.totalEarnings{
+    font-size: 20px;
+    position: relative;
+    width:15%;
+    min-width: 143px;
+}
 
 </style>

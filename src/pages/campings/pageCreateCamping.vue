@@ -154,7 +154,8 @@ export default {
         .then(data => {
           console.log('Success:', data);
           delay(500);
-          this.clearForm(); // Clear the form after success
+          this.clearForm();
+          this.$router.push('/mijnCampings');
         })
         .catch(error => {
           // Handle error
@@ -174,10 +175,11 @@ export default {
         postcode: '',
         town: '',
         country: '',
+        
       };
       this.images = [];
       this.selectedFacilities = [];
-      this.$router.push('/mijnCampings');
+      this.$router.push('/');
     },
   },
 };

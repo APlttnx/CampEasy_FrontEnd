@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { useUserStore } from './userStore';
 import { formatDate } from '@/shared/formatters';
 
+
 export const useCampingStore = defineStore('camping', {
 
     state: () => ({
@@ -51,6 +52,17 @@ export const useCampingStore = defineStore('camping', {
             }); 
             return {presentBookings, pastBookings};
         },
+
+        isTheOwner: (state) => (id) => {
+            console.log(id);
+            console.log(state.ownCampingData.length);
+            if (state.ownCampingData.length === 0) {
+                console.log('fail');
+                return false;
+            }
+            const result = (state.ownCampingData.some(camping => camping.ID === id));
+            return result;
+        },
         ownerCampingCards: (state) => {
             const campingCards = [];
             if (state.ownCampingData.length === 0 || state.campingData.length ===0) return campingCards;
@@ -65,7 +77,8 @@ export const useCampingStore = defineStore('camping', {
                     town: camping.address.split('|')[3]?.trim(),
                     ownerID: camping.ownerID,
                     image: camping.image ? camping.image : require('@/assets/irlFotoTest.jpg'),
-                    earnings: ownedCamping.campingEarnings,
+                    earnings: ownedCamping.campingEarnings || 0,
+                    isOwner: true,
                 };
                 campingCards.push(card);
             });
@@ -124,7 +137,7 @@ export const useCampingStore = defineStore('camping', {
                 });
                 if (!response.ok) throw new Error('Failed to fetch campings');
                 const result = await response.json();
-                this.ownerTotalEarnings = result.totalEarnings;
+                this.ownerTotalEarnings = result.totalEarnings || 0;
                 this.ownCampingData = result.campingEarnings;
             } catch (error) {
                 this.error = error.message;

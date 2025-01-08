@@ -1,14 +1,18 @@
 <template>
   <router-link class="card" :to="{name: 'CampingDetails', params: {ID: camping.ID }}">
-
-    <div :class="camping.ownerID == userStore.iD ? 'owner-card' : 'camping-card'">
-      <!-- {{HIER ONDERSCHEID MAKEN -> EIGENAAR CAMPING = BLAUWE RAND plus aantal andere knoppen}} -->
+    <div :class="camping.isOwner ? 'owner-card' : 'camping-card'">
       <div class="image-camping">
         <img :src="camping.image || require('@/assets/irlFotoTest.jpg')" alt="Camping Image" />
         
         <div v-if="!!camping.startDate && !!camping.endDate" 
-        :class=" formatDate(camping.endDate) > new Date() ? 'campingDatesPresent' : 'campingDatesPast'">{{ camping.startDate }} - {{ camping.endDate }}</div>
+          :class=" formatDate(camping.endDate) > new Date() ? 'campingDatesPresent' : 'campingDatesPast'">{{ camping.startDate }} - {{ camping.endDate }}
+        </div>
+        
+        <div v-if="!!camping.isOwner" 
+          :class=" 'campingDatesPresent'"> Inkomsten: {{toCurrency(camping.earnings)}}
+        </div>
       </div>
+        
       <div class="info">
         <div class="infoBox">
           <h3 class="leftItem">{{ camping.name }}</h3>
@@ -30,7 +34,8 @@
   <script>
   import { useUserStore } from '@/stores/userStore';
   import { mapStores } from 'pinia';
-  import { formatDate } from '@/shared/formatters'; 
+  import { formatDate } from '@/shared/formatters';
+  import { toCurrency } from '@/shared/formatters';
   export default {
     name: 'CampingCard',
     props: {
@@ -45,6 +50,7 @@
     },
     methods: {
       formatDate,
+      toCurrency,
     },
     
 
@@ -61,8 +67,14 @@
     min-width: 300px;
     margin: 20px;
   }
-  .camping-card#owner-card {
-    border: 2px solid #04ddfa;
+  .owner-card {
+    border: 2px solid #0414fa;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    max-width: 300px;
+    min-width: 300px;
+    margin: 20px;
   }
   .image-camping {
     position: relative;
