@@ -5,7 +5,7 @@
         </div> 
         <div v-if="isLoading">Loading...</div>
         <div v-else>
-            <campingCardList :campings="campingCardData" />
+            <campingCardList :campings="ownerCampingCardData" />
         </div>
     </div>
 </template>
@@ -26,7 +26,7 @@ export default{
     computed: {
         ...mapStores(useUserStore, useCampingStore),
 
-        campingCardData() {
+        ownerCampingCardData() {
             if (this.isLoading){
                 return [];
             }
@@ -35,7 +35,7 @@ export default{
         },
 
         isLoading(){
-            return this.campingStore.campingCards.length === 0;
+            return this.campingStore.campingCards.length === 0 || this.campingStore.ownCampingData.length === 0;
         },
     },
     methods: {

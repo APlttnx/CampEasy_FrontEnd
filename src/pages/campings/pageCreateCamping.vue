@@ -147,18 +147,20 @@ export default {
           }
           return response.json();
         })
+        .then(() => {
+          this.campingStore.fetchCampings(); 
+          this.userStore.currentUserRole = 'owner'; 
+        })
         .then(data => {
-          // Handle success
           console.log('Success:', data);
-          this.campingStore.fetchCampings;
-          this.userStore.currentUserRole = 'owner';
+          delay(500);
+          this.clearForm(); // Clear the form after success
         })
         .catch(error => {
           // Handle error
           console.error('Error:', error);
         });
-        await delay(2000);
-      this.clearForm();
+
     },
     clearForm() {
       this.camping = {
