@@ -179,6 +179,7 @@ label {
 input[type="text"],
 input[type="password"],
 input[type="email"],
+input[type="number"],
 select,
 button,
 textarea {
@@ -214,9 +215,6 @@ button:disabled {
   cursor: not-allowed;
 }
 
-.big{
-  min-height: 100px;
-}
 
 .btn-disabled {
   background-color: transparent;  
@@ -237,7 +235,6 @@ button:disabled {
 .inlineGroup .large {
   flex: 3;
 }
-
 
 form h1 {
   margin-top: 5px;

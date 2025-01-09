@@ -10,6 +10,16 @@ export const useCampingStore = defineStore('camping', {
         ownCampingData: [],
         ownerTotalEarnings: '',
         bookings: [],
+        filter: {
+            type: '',
+            size: null,
+            priceMin: null,
+            priceMax: null,
+            town:'',
+            country:'',
+            facilities:[],
+            searchQuery:'',
+        },
     }),
 
     getters: {
@@ -21,7 +31,6 @@ export const useCampingStore = defineStore('camping', {
                 size: camping.size,
                 price: camping.price,
                 town: camping.address.split('|')[3]?.trim(),
-                ownerID: camping.ownerID,
                 image: camping.image ? camping.image : require('@/assets/irlFotoTest.jpg'),
             }));
         },
@@ -43,7 +52,6 @@ export const useCampingStore = defineStore('camping', {
                     size: camping.size,
                     price: camping.price,
                     town: camping.address.split('|')[3]?.trim(),
-                    ownerID: camping.ownerID,
                     image: camping.image ? camping.image : require('@/assets/irlFotoTest.jpg'),
                     startDate: booking.startDate,
                     endDate: booking.endDate,
@@ -75,7 +83,6 @@ export const useCampingStore = defineStore('camping', {
                     size: camping.size,
                     price: camping.price,
                     town: camping.address.split('|')[3]?.trim(),
-                    ownerID: camping.ownerID,
                     image: camping.image ? camping.image : require('@/assets/irlFotoTest.jpg'),
                     earnings: ownedCamping.campingEarnings || 0,
                     isOwner: true,
@@ -83,6 +90,14 @@ export const useCampingStore = defineStore('camping', {
                 campingCards.push(card);
             });
             return campingCards;
+        },
+        filterTownOptions: (state) => {
+            const townSet = [...new Set(state.campingData.map(camping => camping.address.split('|')[3]?.trim()))];
+            return townSet;
+        },
+        filterCountryOptions: (state) => {
+            const townSet = [...new Set(state.campingData.map(camping => camping.country))];
+            return townSet;
         },
         
     },
@@ -145,6 +160,17 @@ export const useCampingStore = defineStore('camping', {
                 this.ownerTotalEarnings = '';
             }
         },
-        
+        resetFilter(){
+            this.filter = {
+                type: '',
+                size: null,
+                priceMin: null,
+                priceMax: null,
+                town: '',
+                country: '',
+                facilities: [],
+                searchQuery: '',
+            };
+        },
     },
 });
