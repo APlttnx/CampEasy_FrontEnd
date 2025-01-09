@@ -63,7 +63,6 @@ export const useCampingStore = defineStore('camping', {
                     }
                 }
                 
-    
                 // Search query (name search)
                 if (state.filter.searchQuery) {
                     return camping.name.toLowerCase().includes(state.filter.searchQuery.toLowerCase());

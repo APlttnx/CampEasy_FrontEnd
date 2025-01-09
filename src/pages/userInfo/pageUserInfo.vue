@@ -53,10 +53,11 @@
             <label for="_emergencyTelnr">Noodgeval nummer: </label>
             <input type="text" :readonly="!editMode" :class="{'readonly': !editMode}" id="_emergencyTelnr" v-model="user.emergencyTelnr" /><br>
         </div>
-        
-        <button v-show="!editMode" @click="activateEditMode()">Aanpassen</button>
-        <button v-show="editMode" @click="cancelChanges()">Annuleren</button>
-        <button v-show="editMode" @click="saveChanges()">Opslaan</button>
+        <div class="inlineGroup">
+            <button v-show="!editMode" @click="activateEditMode()">Aanpassen</button>
+            <button v-show="editMode" @click="cancelChanges()">Annuleren</button>
+            <button v-show="editMode" @click="saveChanges()">Opslaan</button>
+        </div>
     </form>
 </template>
 <script>

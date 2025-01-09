@@ -44,7 +44,6 @@ export const useUserStore = defineStore('user', {
                 this.token = result.token;
                 this.currentUserRole = result.userRole;
                 this.currentUserGreetName = result.userGreetName;
-                this.currentUserID = result.userID;
 
                 // Store in localStorage
                 localStorage.setItem('token', result.token);
@@ -80,6 +79,12 @@ export const useUserStore = defineStore('user', {
                 if (!response.ok) throw new Error('Failed to fetch user data');
                 
                 this.currentUserData = await response.json();
+                this.currentUserRole = this.currentUserData.userRole;
+                this.currentUserGreetName = this.currentUserData.preferredName || this.currentUserData.firstName;
+
+                // Store in localStorage
+                localStorage.setItem('userRole', this.currentUserRole);
+                localStorage.setItem('userGreetName', this.currentUserGreetName);
             }catch (error) {
                 this.error = error.message;
             }

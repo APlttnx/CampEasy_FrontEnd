@@ -10,6 +10,7 @@
                 <select id="filterType" v-model="campingStore.filter.type">
                     <option>Tent</option>
                     <option>Caravan</option>
+                    <option value="">Alles</option>
                 </select>
             </div>
             <div class="filterItem small">
@@ -27,17 +28,20 @@
             <div class="filterItem">
                 <label for="filterTown">Gemeente</label>
                 <select id="filterTown" v-model="campingStore.filter.town">
+                    <option value="">Alles</option>
                     <option v-for="town in campingStore.filterTownOptions" :key="town">{{ town }}</option>
                 </select>
+                
             </div>
             <div class="filterItem">
                 <label for="filterCountry">Land</label>
                 <select id="filterCountry" v-model="campingStore.filter.country">
+                    <option value="">Alles</option>
                     <option v-for="country in campingStore.filterCountryOptions" :key="country">{{ country }}</option>
                 </select>
             </div>
             <br>
-            <div  v-show="isExtended">
+            <div v-show="isExtended">
                 <label>Faciliteiten</label>
                 <div class="facilities">
                     <div v-for="facility in facilityStore.facilities" :key="facility.id">
@@ -161,6 +165,5 @@ export default {
 }
 .ext.noExtendButton::before{
     content: '\25BC';
-
 }
 </style>

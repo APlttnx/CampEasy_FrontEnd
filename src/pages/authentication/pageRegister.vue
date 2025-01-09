@@ -4,24 +4,24 @@
     <form>
       <h1>Welkom</h1>
       <div>
-        <label for="input_fn">Voornaam*: </label>
-        <input type="text" v-model="user.fn" id="input_fn">
+        <label for="input_fn">Voornaam:* </label>
+        <input type="text" v-model="user.fn" id="input_fn" required>
       </div>
       <div>
-        <label for="input_ln">Achternaam*: </label>
-        <input type="text" v-model="user.ln" id="input_ln">
+        <label for="input_ln">Achternaam:* </label>
+        <input type="text" v-model="user.ln" id="input_ln" required>
       </div>
       <div>
         <label for="input_pn">Voorkeursnaam: </label>
         <input type="text" v-model="user.pn" id="input_pn">
       </div>
       <div>
-        <label for="input_email">Email*: </label>
-        <input type="email" v-model="user.email" id="input_email">
+        <label for="input_email">Email:* </label>
+        <input type="email" v-model="user.email" id="input_email" required>
       </div>
       <div>
-        <label for="input_phoneNumber">Telefoonnummer*: </label>
-        <input type="text" v-model="user.phoneNumber" id="input_phoneNumber">
+        <label for="input_phoneNumber">Telefoonnummer:* </label>
+        <input type="text" v-model="user.phoneNumber" id="input_phoneNumber" required>
       </div>
       <div class="inlineGroup">
         <div class="large">
@@ -30,7 +30,7 @@
         </div>
         <div class="small">
           <label for="input_streetnr">Nr: </label>
-          <input type="text" v-model="user.streetnr" id="input_streetnr">
+          <input type="number" v-model="user.streetnr" id="input_streetnr">
         </div>
       </div>
       <div class="inlineGroup">
@@ -44,20 +44,21 @@
         </div>
       </div>
       <div>
-        <countrySelector v-model="user.country"  id="input_country"/>
+        <countrySelector v-model="user.country"  id="input_country" required/>
       </div>
       <div>
         <label for="input_emergencyTelnr">Noodgeval nummer: </label>
         <input type="text" v-model="user.emergencyTelnr" id="input_emergencyTelnr">
       </div>
       <div>
-        <label for="input_password">Wachtwoord*: </label>
-        <input type="password" v-model="user.password" id="input_password">
+        <label for="input_password">Wachtwoord:* </label>
+        <input type="password" v-model="user.password" id="input_password" required>
       </div>
       <div>
         <label for="input_checkPassword">Bevestiging wachtwoord:* </label>
-        <input type="password" v-model="user.checkPassword" id="input_checkPassword">
+        <input type="password" v-model="user.checkPassword" id="input_checkPassword" required>
       </div>
+      <p class="errorMessage">{{ regError }}</p>
       <div>
         <button type="submit" @click="submitUser()">Registreren</button>
       </div>
@@ -96,28 +97,25 @@ export default {
         password: '',
         checkPassword: '',
       },
+      regError: '',
     };
   },
   components: {
     countrySelector,
   },
-  computed: {
-    // fullAddress() {
-    //   return `${this.user.street} | ${this.user.streetnr} | ${this.user.postcode} | ${this.user.town}`;
-    // },
-    
+  computed: { 
     userData() {
       return {
-        firstName: this.user.fn,
-        lastName: this.user.ln,
-        preferredName: this.user.pn,
-        roleUser: this.user.role,
-        email: this.user.email,
-        phoneNumber: this.user.phoneNumber,
-        address: `${this.user.street} | ${this.user.streetnr} | ${this.user.postcode} | ${this.user.town}`,
-        country: this.user.country,
-        emergencyTel: this.user.emergencyTelnr,
-        password: this.user.password,
+        firstName: this.user.fn.trim(),
+        lastName: this.user.ln.trim(),
+        preferredName: this.user.pn.trim(),
+        roleUser: this.user.role.trim(),
+        email: this.user.email.trim(),
+        phoneNumber: this.user.phoneNumber.trim(),
+        address: `${this.user.street.trim()} | ${this.user.streetnr.trim()} | ${this.user.postcode.trim()} | ${this.user.town.trim()}`,
+        country: this.user.country.trim(),
+        emergencyTel: this.user.emergencyTelnr.trim(),
+        password: this.user.password.trim(),
       };
       
     },
@@ -125,11 +123,23 @@ export default {
 
   methods: {
     submitUser() {
-      // wachtwoorden gelijk?
-      if (this.user.password !== this.user.checkPassword) {
-        alert('Passwords do not match!');
+
+      if (!this.user.firstName || !this.user.lastName || !this.user.email || !this.user.phoneNumber || !this.user.password) {
+        this.regError = "\nNiet alle verplichte velden zijn ingevuld";
         return;
       }
+      //gelijkaardige check -> programma crasht als je trim doet op leeg veld, dus eerst check of leeg, dan check voor enkel spaties
+      if (!this.user.firstName.trim() || !this.user.lastName.trim() || !this.user.email.trim() || !this.user.phoneNumber.trim() || !this.user.password.trim()) {
+        this.regError = "\nNiet alle verplichte velden zijn ingevuld";
+        return;
+      }
+
+      // wachtwoorden gelijk?
+      if (this.user.password !== this.user.checkPassword) {
+        this.regError = "wachtwoord is niet gelijk";
+        return;
+      } 
+      
 
       fetch("http://localhost:3100/api/users", {
         method: "POST",
@@ -150,6 +160,7 @@ export default {
         .catch(error => {
           // Handle error
           console.error('Error:', error);
+          this.regError = error.details;
         });
     },
   },
@@ -234,6 +245,11 @@ button:disabled {
 
 .inlineGroup .large {
   flex: 3;
+}
+
+p.errorMessage{
+  color: red;
+  font-size: 12px;
 }
 
 form h1 {

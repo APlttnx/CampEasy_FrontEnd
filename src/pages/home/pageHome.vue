@@ -1,7 +1,7 @@
 <template>
     <div class="content"> 
         <div class="greeting">
-            Welkom {{ currentUserGreetName }}!
+            Welkom {{ userStore.currentUserGreetName  }}!
         </div> 
         <div v-if="isLoading">Loading...</div>
         <div v-else>
@@ -37,9 +37,7 @@ export default{
 
     computed: {
         ...mapStores(useUserStore, useCampingStore),
-        currentUserGreetName() {
-            return this.userStore.currentUserGreetName;
-        },
+
         campingCardData() {
             const cardData = this.campingStore.filteredCampingCards;
             return cardData; 

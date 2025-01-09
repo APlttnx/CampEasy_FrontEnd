@@ -15,7 +15,7 @@
       </div>
       <div>
         <label for="input_size">Grootte: </label>
-        <input type="text" v-model="camping.size" id="input_size">
+        <input type="number" v-model="camping.size" id="input_size">
       </div>
       <div>
         <label for="input_description">Omschrijving: </label>
@@ -23,7 +23,7 @@
       </div>
       <div>
         <label for="input_price">Prijs per nacht: </label>
-        <input type="text" v-model="camping.price" id="input_price">
+        <input type="number" v-model="camping.price" id="input_price">
       </div>
       <div class="inlineGroup">
         <div class="large">
