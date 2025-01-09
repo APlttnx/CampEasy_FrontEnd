@@ -100,7 +100,7 @@ export const useCampingStore = defineStore('camping', {
                 if (!response.ok) throw new Error('Failed to fetch campings');
                 this.campingData = await response.json();
             } catch (error) {
-                this.error = error.message;
+
                 this.campingData = [];
             }
         },

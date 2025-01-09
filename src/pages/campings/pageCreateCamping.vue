@@ -18,29 +18,36 @@
       </div>
       <div class="inputform">
         <label for="input_description">Omschrijving: </label>
-        <input type="text" v-model="camping.description" id="input_description">
+        <textarea type="text" v-model="camping.description" id="input_description" maxlength="1000"></textarea>
       </div>
       <div class="inputform">
         <label for="input_price">Prijs per nacht: </label>
         <input type="text" v-model="camping.price" id="input_price">
       </div>
-      <div class="inputform">
-        <label for="input_street">Straat: </label>
-        <input type="text" v-model="camping.street" id="input_street">
-        <label for="input_streetnr">Nr: </label>
-        <input type="text" v-model="camping.streetnr" id="input_streetnr">
+      <div class="inlineGroup">
+        <div class="large">
+          <label for="input_street">Straat: </label>
+          <input type="text" v-model="camping.street" id="input_street">
+        </div>
+        <div class="small">
+          <label for="input_streetnr">Nr: </label>
+          <input type="text" v-model="camping.streetnr" id="input_streetnr">
+        </div>
       </div>
-      <div class="inputform">
-        <label for="input_postcode">Postcode: </label>
-        <input type="text" v-model="camping.postcode" id="input_postcode">
-
-        <label for="input_town">Gemeente: </label>
-        <input type="text" v-model="camping.town" id="input_town">
+      <div class="inlineGroup">
+        <div class="small">
+          <label for="input_postcode">Postcode: </label>
+          <input type="text" v-model="camping.postcode" id="input_postcode">
+        </div>
+        <div class="large">
+          <label for="input_town">Gemeente: </label>
+          <input type="text" v-model="camping.town" id="input_town">
+        </div>
       </div>
       <div class="inputform">
         <countrySelector v-model="camping.country"  id="input_country"/>
       </div>
-      Faciliteiten:
+      <label>Faciliteiten:</label>
       <div v-for="facility in this.facilities" :key="facility.ID">
         <label>
           <input type="checkbox" :value="facility.ID" v-model="selectedFacilities" />
@@ -52,7 +59,7 @@
         <label>Afbeeldingen: </label>
         <imageUpload v-model:images="images" />
       </div>
-      <div>
+      <div class="inlineGroup">
         <button type="submit" @click="clearForm()">Annuleren</button>
         <button type="submit" @click="submitCamping()">Aanmaken</button>
       </div>

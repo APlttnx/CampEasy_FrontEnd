@@ -1,5 +1,5 @@
 <template>
-  <div class="formblock">
+  <div>
 
     <form>
       <h1>Welkom</h1>
@@ -17,13 +17,13 @@
       </div>
       <div>
         <label for="input_email">Email*: </label>
-        <input type="text" v-model="user.email" id="input_email">
+        <input type="email" v-model="user.email" id="input_email">
       </div>
       <div>
         <label for="input_phoneNumber">Telefoonnummer*: </label>
         <input type="text" v-model="user.phoneNumber" id="input_phoneNumber">
       </div>
-      <div class="inline-group">
+      <div class="inlineGroup">
         <div class="large">
           <label for="input_street">Straat: </label>
           <input type="text" v-model="user.street" id="input_street">
@@ -33,7 +33,7 @@
           <input type="text" v-model="user.streetnr" id="input_streetnr">
         </div>
       </div>
-      <div class="inline-group">
+      <div class="inlineGroup">
         <div class="small">
           <label for="input_postcode">Postcode: </label>
           <input type="text" v-model="user.postcode" id="input_postcode">
@@ -178,7 +178,10 @@ label {
 
 input[type="text"],
 input[type="password"],
-button {
+input[type="email"],
+select,
+button,
+textarea {
   width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
@@ -196,6 +199,13 @@ button {
   padding: 10px;
 }
 
+select{
+  width: 100px;
+}
+textarea{
+  height: 100px;
+  resize: none;
+}
 button:hover {
   background-color: #4a8;
 }
@@ -204,23 +214,27 @@ button:disabled {
   cursor: not-allowed;
 }
 
+.big{
+  min-height: 100px;
+}
+
 .btn-disabled {
   background-color: transparent;  
   color: #bdc3c7;                
   border: 1px solid #bdc3c7;       
 }
 
-.inline-group {
+.inlineGroup {
   display: flex;
   justify-content: space-between;
   gap: 10px;
 }
 
-.inline-group .small {
+.inlineGroup .small {
   flex: 1;
 }
 
-.inline-group .large {
+.inlineGroup .large {
   flex: 3;
 }
 

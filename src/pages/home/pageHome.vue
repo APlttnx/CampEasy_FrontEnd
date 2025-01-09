@@ -4,7 +4,11 @@
             Welkom {{ currentUserGreetName }}!
         </div> 
         <div v-if="isLoading">Loading...</div>
-        <campingCardList v-else :campings="campingCardData" />
+        <div v-else>
+            <campingFilter />
+            <campingCardList  :campings="campingCardData" />
+        </div>
+
 
     </div>
 </template>
@@ -13,6 +17,7 @@ import { mapStores } from 'pinia';
 import { useUserStore } from '@/stores/userStore';
 import { useCampingStore } from '@/stores/campingStore';
 import campingCardList from '@/components/campingCardList.vue';
+import campingFilter from '@/components/campingFilter.vue';
 export default{
     name: 'HomePage',
     created() {
@@ -20,6 +25,7 @@ export default{
     },
     components: {
         campingCardList,
+        campingFilter,
     },
     methods: {
         async initiliazeCampingData() {

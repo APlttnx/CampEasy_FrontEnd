@@ -80,7 +80,7 @@ export const useUserStore = defineStore('user', {
                 if (!response.ok) throw new Error('Failed to fetch user data');
                 
                 this.currentUserData = await response.json();
-            } catch (error) {
+            }catch (error) {
                 this.error = error.message;
             }
         },
@@ -112,13 +112,13 @@ export const useUserStore = defineStore('user', {
                 if (!response.ok) {
                     const errorData = await response.json();
                     this.error = errorData;
-                    return Promise.reject(errorData);
+                    return Promise.reject(errorData); //!
                 }
 
                 // Refresh user data
                 await this.fetchUserData();
-                const successData = await response.json();
-                return successData;
+                // const successData = await response.json();
+                // return successData;
             } catch (error) {
                 this.error = error.message;
                 return Promise.reject(error);
