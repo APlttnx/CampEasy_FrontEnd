@@ -42,14 +42,13 @@
                 <div class="facilities">
                     <div v-for="facility in facilityStore.facilities" :key="facility.id">
                         <div>
-                            <input type="checkbox" :value="facility" v-model="campingStore.filter.facilities" />
+                            <input type="checkbox" :value="facility.facilityName" v-model="campingStore.filter.facilities" />
                             {{ facility.facilityName }}
                         </div>
                     </div>
                 </div>
             </div>
             <div class="filterButtons">
-                <button @click="commitFilter()">Filter</button>
                 <button @click="campingStore.resetFilter()">Reset</button>
             </div>
             <button :class="isExtended ? 'ext extendButton' : 'ext noExtendButton'" @click="toggleExtended()"></button>
@@ -69,7 +68,7 @@ export default {
     },
     data() {
     return{
-        isExtended: true,
+        isExtended: false,
     };
         
     },
@@ -81,17 +80,13 @@ export default {
         ...mapStores(useCampingStore, useFacilityStore),
     },
     methods: {
-        //   formatDate,
-        //   toCurrency,
         async fetchFacilities() {
             await this.facilityStore.fetchFacilities();
         },
         toggleExtended() {
             this.isExtended = this.isExtended ? false : true;
         },
-        commitFilter(){
-            console.log(this.campingStore.filter);
-        },
+
     },
 
 
@@ -143,11 +138,11 @@ export default {
 }
 .filterButtons {
     display: flex;
-    width: 20%;
+    width: 15%;
     column-gap: 5px;
     position: absolute;
     right: 20px;
-    bottom: -19px;
+    bottom: -25px;
 }
 
 .filterButtons button {
@@ -156,7 +151,7 @@ export default {
 }
 .ext{
     color: black;
-    background:#81af468c;
+    background:#898d831e;
     height: 25px;
     padding:0px;
     width: 100%;

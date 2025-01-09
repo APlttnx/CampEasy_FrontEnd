@@ -41,7 +41,7 @@ export default{
             return this.userStore.currentUserGreetName;
         },
         campingCardData() {
-            const cardData = this.campingStore.campingCards;
+            const cardData = this.campingStore.filteredCampingCards;
             return cardData; 
         },
         isLoading(){

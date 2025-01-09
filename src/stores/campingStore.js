@@ -31,9 +31,48 @@ export const useCampingStore = defineStore('camping', {
                 size: camping.size,
                 price: camping.price,
                 town: camping.address.split('|')[3]?.trim(),
+                country: camping.country,
                 image: camping.image ? camping.image : require('@/assets/irlFotoTest.jpg'),
+                facilities: camping.facilities,
             }));
         },
+
+        filteredCampingCards: (state) => {
+            return state.campingCards.filter(camping => {
+                // type
+                if (state.filter.type && camping.type != state.filter.type) return false;
+
+                // groote
+                if (state.filter.size && camping.size < state.filter.size) return false;
+    
+                // Prijs
+                if (state.filter.priceMin && camping.price < state.filter.priceMin) return false;
+                if (state.filter.priceMax && camping.price > state.filter.priceMax) return false;
+    
+                //Gemeente;
+                if (state.filter.town && state.filter.town != camping.town) return false;
+    
+                // Land
+                if (state.filter.country && state.filter.country != camping.country) return false;
+    
+                // Faciliteiten
+                if (state.filter.facilities.length > 0) {
+                    const campingFacilities = camping.facilities || [];
+                    for (const filterFacility of state.filter.facilities){
+                        return campingFacilities.includes(filterFacility);
+                    }
+                }
+                
+    
+                // Search query (name search)
+                if (state.filter.searchQuery) {
+                    return camping.name.toLowerCase().includes(state.filter.searchQuery.toLowerCase());
+                }
+    
+                return true;
+            });
+        },
+        
         getCampingById: (state) => (id) => {
             const campingDetails = state.campingData.find(campingData => campingData.ID == id);
             const addressParts = campingDetails.address.split(' | ');
@@ -92,7 +131,7 @@ export const useCampingStore = defineStore('camping', {
             return campingCards;
         },
         filterTownOptions: (state) => {
-            const townSet = [...new Set(state.campingData.map(camping => camping.address.split('|')[3]?.trim()))];
+            const townSet = [...new Set(state.campingData.map(camping => camping.address.split('|')[3].trim()))];
             return townSet;
         },
         filterCountryOptions: (state) => {
