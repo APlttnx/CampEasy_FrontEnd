@@ -6,7 +6,6 @@ export const useUserStore = defineStore('user', {
         currentUserRole: localStorage.getItem('userRole') || '',
         currentUserGreetName: localStorage.getItem('userGreetName') || '',
         currentUserData: null,
-        error: null,
     }),
     getters: {
         isAuthenticated: (state) => !!state.token,
@@ -79,7 +78,7 @@ export const useUserStore = defineStore('user', {
                 if (!response.ok) throw new Error('Failed to fetch user data');
                 
                 this.currentUserData = await response.json();
-                this.currentUserRole = this.currentUserData.userRole;
+                this.currentUserRole = this.currentUserData.role;
                 this.currentUserGreetName = this.currentUserData.preferredName || this.currentUserData.firstName;
 
                 // Store in localStorage
@@ -116,7 +115,6 @@ export const useUserStore = defineStore('user', {
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    this.error = errorData;
                     return Promise.reject(errorData); //!
                 }
 
@@ -125,7 +123,6 @@ export const useUserStore = defineStore('user', {
                 // const successData = await response.json();
                 // return successData;
             } catch (error) {
-                this.error = error.message;
                 return Promise.reject(error);
             }
         },

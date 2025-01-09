@@ -10,48 +10,52 @@
         </div>
         <div>
             <label for="_fn">Voornaam: </label>
-            <input type="text" :readonly="!editMode" :class="{'readonly': !editMode}" id="_fn" v-model="user.fn" /><br>
+            <input type="text" :readonly="!editMode" :class="{'readonly': !editMode}" id="_fn" v-model="user.fn" />
         </div>
 
         <div>
             <label for="_ln">Achternaam: </label>
-            <input type="text" :readonly="!editMode" :class="{'readonly': !editMode}" id="_ln" v-model="user.ln" /><br>
+            <input type="text" :readonly="!editMode" :class="{'readonly': !editMode}" id="_ln" v-model="user.ln" />
         </div>
         <div>
             <label for="_pn">Voorkeursnaam: </label>
-            <input type="text" :readonly="!editMode" :class="{'readonly': !editMode}" id="_pn" v-model="user.pn" /><br>
+            <input type="text" :readonly="!editMode" :class="{'readonly': !editMode}" id="_pn" v-model="user.pn" />
         </div>
         <div>
             <label for="_telnr">Telefoonnummer: </label>
-            <input type="text" :readonly="!editMode" :class="{'readonly': !editMode}" id="_telnr" v-model="user.telnr" /><br>
+            <input type="text" :readonly="!editMode" :class="{'readonly': !editMode}" id="_telnr" v-model="user.telnr" />
         </div>
         <div class="inlineGroup">
             <div class="large">
                 <label for="_street">Straat: </label>
-                <input type="text" :readonly="!editMode" :class="{'readonly': !editMode}" id="_street" v-model="user.street" /><br>
+                <input type="text" :readonly="!editMode" :class="{'readonly': !editMode}" id="_street" v-model="user.street" />
             </div>
             <div class="small">
                 <label for="_streetnr">Nr: </label>
-                <input type="text" :readonly="!editMode" :class="{'readonly': !editMode}" id="_streetnr" v-model="user.streetnr" /><br>
+                <input type="text" :readonly="!editMode" :class="{'readonly': !editMode}" id="_streetnr" v-model="user.streetnr" />
             </div>
         </div>
         <div class="inlineGroup">
             <div class="small">
                 <label for="_postcode">Postcode: </label>
-                <input type="text" :readonly="!editMode" :class="{'readonly': !editMode}" id="_postcode" v-model="user.postcode" /><br>
+                <input type="text" :readonly="!editMode" :class="{'readonly': !editMode}" id="_postcode" v-model="user.postcode" />
             </div>
             <div class="large">
                 <label for="_town">Gemeente: </label>
-                <input type="text" :readonly="!editMode" :class="{'readonly': !editMode}" id="_town" v-model="user.town" /><br>
+                <input type="text" :readonly="!editMode" :class="{'readonly': !editMode}" id="_town" v-model="user.town" />
             </div>
         </div>
-        <div>
+        <div v-if="!editMode">
             <label for="_country">Land: </label>
-            <input type="text" :readonly="!editMode" :class="{'readonly': !editMode}" id="_country" v-model="user.country" /><br>
+            <input type="text" :readonly="!editMode" :class="{'readonly': !editMode}" id="_country" v-model="user.country" />
         </div>
+        <div v-else>
+            <countrySelector :modelvalue="user.country" v-model="user.country"/> 
+        </div>
+
         <div>
             <label for="_emergencyTelnr">Noodgeval nummer: </label>
-            <input type="text" :readonly="!editMode" :class="{'readonly': !editMode}" id="_emergencyTelnr" v-model="user.emergencyTelnr" /><br>
+            <input type="text" :readonly="!editMode" :class="{'readonly': !editMode}" id="_emergencyTelnr" v-model="user.emergencyTelnr" />
         </div>
         <div class="inlineGroup">
             <button v-show="!editMode" @click="activateEditMode()">Aanpassen</button>
@@ -63,6 +67,7 @@
 <script>
 import { mapStores } from 'pinia';
 import { useUserStore } from '@/stores/userStore';
+import countrySelector from '@/components/countrySelector.vue';
 
 export default {
     name: 'UserInfoPage',
@@ -75,6 +80,9 @@ export default {
             user: {},
             userBackup: {},
         };
+    },
+    components: {
+        countrySelector,
     },
     methods: {
         
@@ -127,8 +135,8 @@ export default {
 <style scoped>
 
 input.readonly {
-  background-color: #f5f5f5;
-  border: 1px solid #eee;
+  background-color: #e0dedeb6;
+  border: 1px solid #000000;
   cursor: not-allowed;
 
 }</style>
