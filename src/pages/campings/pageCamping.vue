@@ -2,7 +2,7 @@
   <div :class="isTheOwner ? 'campingSplitOwner' : 'campingSplitUser'" v-if="!isLoading">
     <div class="leftColumn">
       <div class="imageCamping">
-        <img src="@/assets/irlFotoTest.jpg" />
+        <img :src="campingDetails.imageUrl || require('@/assets/defaultCamp.webp')" alt="Camping Image" />
       </div>
       <div class="addressBox">
         <p class="address">{{ campingDetails.address }}</p>
@@ -68,9 +68,9 @@
           <input type="checkbox" v-model="accepted" />
           Ik ga akkoord met de <a href="/serviceAgreement.txt" target="_blank">servicevoorwaarden</a>
         </p>
-        <p class="bookWarning" v-show="accepted && !this.userStore.token">Log eerst in voordat u boekt!</p>
-        <p class="bookWarning" v-show="accepted && !isValidDate">Datums ongeldig: zorg ervoor dat de einddatum achter de startdatum ligt!</p>
-        <p class="bookWarning" v-show="accepted && !isNoOverbooking">Iemand anders heeft deze periode al geboekt!</p>
+        <p class="errorMessage" v-show="accepted && !this.userStore.token">Log eerst in voordat u boekt!</p>
+        <p class="errorMessage" v-show="accepted && !isValidDate">Datums ongeldig: zorg ervoor dat de einddatum achter de startdatum ligt!</p>
+        <p class="errorMessage" v-show="accepted && !isNoOverbooking">Iemand anders heeft deze periode al geboekt!</p>
         <button @click="this.createBooking()" :disabled="!isGoodToGo" :class="{ 'btn-disabled': !isGoodToGo }">
           <span v-if="isTheOwner">RESERVEREN</span>
           <span v-else>BOEKEN</span>
@@ -234,8 +234,9 @@ export default {
           if (!response.ok) {
             return response.json().then(err => Promise.reject(err));
           }
-          alert("Boeking aangemaakt");
+          console.log("Boeking aangemaakt");
           this.fetchBookings();
+          this.$router.push("/overzichtBoekingen");
           return response.json();
         })
         .catch(error => {
@@ -260,7 +261,8 @@ export default {
   width: 100%;
   justify-content: space-between;
   column-gap: 20px;
-  border: 1px dotted blue
+  border: 3px dotted blue;
+  padding: 5px;
 }
 
 .leftColumn {
@@ -276,7 +278,7 @@ export default {
 .imageCamping {
   position: relative;
   width: 100%;
-  height: 500px;
+  height: 700px;
   overflow: hidden;
   border: 1px solid #123524;
   text-align: center;
@@ -285,9 +287,8 @@ export default {
 
 img {
   width: 100%;
-  max-width: 700px;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .faciliteiten {
@@ -426,8 +427,5 @@ p.address {
   margin-bottom: 10px;
 }
 
-p.bookWarning{
-  color: red;
-  font-size: 12px;
-}
+
 </style>

@@ -55,10 +55,6 @@
   </script>
   
   <style scoped>
-  .error {
-    color: red;
-    font-size: 12px;
-    margin-top: 4px;
-  }
+ 
   </style>
   

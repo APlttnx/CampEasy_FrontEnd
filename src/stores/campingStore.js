@@ -32,7 +32,7 @@ export const useCampingStore = defineStore('camping', {
                 price: camping.price,
                 town: camping.address.split('|')[3]?.trim(),
                 country: camping.country,
-                image: camping.image ? camping.image : require('@/assets/irlFotoTest.jpg'),
+                image: camping.imageUrl || require('@/assets/defaultCamp.webp'),
                 facilities: camping.facilities,
             }));
         },
@@ -90,7 +90,7 @@ export const useCampingStore = defineStore('camping', {
                     size: camping.size,
                     price: camping.price,
                     town: camping.address.split('|')[3]?.trim(),
-                    image: camping.image ? camping.image : require('@/assets/irlFotoTest.jpg'),
+                    image: camping.imageUrl,
                     startDate: booking.startDate,
                     endDate: booking.endDate,
                 };
@@ -121,7 +121,7 @@ export const useCampingStore = defineStore('camping', {
                     size: camping.size,
                     price: camping.price,
                     town: camping.address.split('|')[3]?.trim(),
-                    image: camping.image ? camping.image : require('@/assets/irlFotoTest.jpg'),
+                    image: camping.imageUrl,
                     earnings: ownedCamping.campingEarnings || 0,
                     isOwner: true,
                 };

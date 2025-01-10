@@ -36,7 +36,7 @@
       <div class="inlineGroup">
         <div class="small">
           <label for="input_postcode">Postcode: </label>
-          <input type="text" v-model="user.postcode" id="input_postcode" maxlength="10">
+          <input type="text" v-model="user.postcode" id="input_postcode" maxlength="5">
         </div>
         <div class="large">
           <label for="input_town">Gemeente: </label>
@@ -136,7 +136,7 @@ export default {
       // }
 
       // wachtwoorden gelijk?
-      if (this.user.password !== this.user.checkPassword) {
+      if (this.userData.password !== this.user.checkPassword) {
         throw "wachtwoord is niet gelijk";
       }
 
@@ -176,95 +176,5 @@ export default {
 };
 </script>
 <style>
-form {
-  background-color: #ffffff8e;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
-  width: 100%;
-  margin: auto;
-}
 
-form div {
-  margin-bottom: 12px;
-}
-
-label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 1px;
-}
-
-input[type="text"],
-input[type="password"],
-input[type="email"],
-input[type="number"],
-select,
-button,
-textarea {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font-size: 14px;
-}
-
-button {
-  background-color: #5a9;
-  color: #fff;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  padding: 10px;
-}
-
-select {
-  width: 100px;
-}
-
-textarea {
-  height: 100px;
-  resize: none;
-}
-
-button:hover {
-  background-color: #4a8;
-}
-
-button:disabled {
-  cursor: not-allowed;
-}
-
-
-.btn-disabled {
-  background-color: transparent;
-  color: #bdc3c7;
-  border: 1px solid #bdc3c7;
-}
-
-.inlineGroup {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.inlineGroup .small {
-  flex: 1;
-}
-
-.inlineGroup .large {
-  flex: 3;
-}
-
-p.errorMessage {
-  color: red;
-  font-size: 12px;
-}
-
-form h1 {
-  margin-top: 5px;
-  text-align: center;
-}
 </style>

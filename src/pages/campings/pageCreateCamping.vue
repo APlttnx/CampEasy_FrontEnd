@@ -58,7 +58,7 @@
 
       <div>
         <label>Afbeeldingen: </label>
-        <imageUpload v-model:images="images" />
+        <imageUpload @image-uploaded="handleImageUrl" />
       </div>
       <div class="inlineGroup">
         <button type="submit" @click="clearForm()">Annuleren</button>
@@ -99,7 +99,7 @@ export default {
         town: '',
         country: '',
       },
-      images: [],
+      campingImageUrl: null,
       facilities: [],
       selectedFacilities: [],
     };
@@ -116,7 +116,7 @@ export default {
         description: this.camping.description,
         address: `${this.camping.street} | ${this.camping.streetnr} | ${this.camping.postcode} | ${this.camping.town}`,
         country: this.camping.country,
-        images: this.images,
+        imageUrl: this.campingImageUrl,
         facilities: this.selectedFacilities,
       };
     },
@@ -171,6 +171,9 @@ export default {
         });
 
     },
+    handleImageUrl(url) {
+      this.campingImageUrl = url;
+    },
     clearForm() {
       this.camping = {
         name: '',
@@ -185,7 +188,7 @@ export default {
         country: '',
         
       };
-      this.images = [];
+      this.imageUrl = '';
       this.selectedFacilities = [];
       this.$router.push('/');
     },
