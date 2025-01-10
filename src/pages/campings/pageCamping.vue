@@ -50,12 +50,14 @@
             <div class="datePickerItem">
               <label>Van:</label>
               <datepicker v-model="pickedStartDate" class="datePicker" :lower-limit="new Date()"
-                :disabled-dates="{dates: unavailableDates}"/>
+                :disabled-dates="{dates: unavailableDates}"
+                inputFormat="dd-MM-yyyy"/>
             </div>
             <div class="datePickerItem">
               <label>Tot:</label>
               <datepicker v-model="pickedEndDate" class="datePicker" :lower-limit="minDate || new Date()"
-                :disabled-dates="{dates: unavailableDates}"/>
+                :disabled-dates="{dates: unavailableDates}"
+                inputFormat="dd-MM-yyyy"/>
             </div>
           </div>
           <div class="bookingCalculation">
@@ -87,7 +89,7 @@ import { useCampingStore } from '@/stores/campingStore';
 import { useUserStore } from '@/stores/userStore';
 import { toCurrency } from '@/shared/formatters';
 import { addDay } from '@/shared/formatters';
-import Datepicker from 'vue3-datepicker';
+import Datepicker from 'vue3-datepicker'; //bron: https://icehaunter.github.io/vue3-datepicker/
 
 export default {
   data() {
@@ -133,7 +135,6 @@ export default {
       while (iDate <= this.pickedEndDate) {
         const isUnavailable = this.unavailableDates.some(date => date.getTime() === iDate.getTime());
         if (isUnavailable) {
-          console.log("niet geldig");
           return false;
         }     
         iDate = addDay(iDate);
