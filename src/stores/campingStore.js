@@ -56,11 +56,14 @@ export const useCampingStore = defineStore('camping', {
                 if (state.filter.country && state.filter.country != camping.country) return false;
     
                 // Faciliteiten
+                console.log(state.filter.facilities.length);
                 if (state.filter.facilities.length > 0) {
                     const campingFacilities = camping.facilities || [];
+                    var result = true;
                     for (const filterFacility of state.filter.facilities){
-                        return campingFacilities.includes(filterFacility);
+                        if(!campingFacilities.includes(filterFacility)) result = false;
                     }
+                    if (!result) return false;
                 }
                 
                 // Search query (name search)

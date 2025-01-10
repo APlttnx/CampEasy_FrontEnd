@@ -1,19 +1,8 @@
 <template>
   <div>
-    <div 
-      class="image-upload-area" 
-      :class="{ 'dragover': isDragging }"
-      @dragenter.prevent="isDragging = true"
-      @dragover.prevent="isDragging = true"
-      @dragleave.prevent="isDragging = false"
-      @drop.prevent="handleDrop"
-    >
-      <input 
-        type="file" 
-        accept="image/*"
-        @change="handleFileSelect"
-        ref="fileInput"
-      >
+    <div class="image-upload-area" :class="{ 'dragover': isDragging }" @dragenter.prevent="isDragging = true"
+      @dragover.prevent="isDragging = true" @dragleave.prevent="isDragging = false" @drop.prevent="handleDrop">
+      <input type="file" accept="image/*" @change="handleFileSelect" ref="fileInput">
       <p>Sleep afbeelding hierheen of klik om te selecteren</p>
     </div>
 
@@ -23,7 +12,7 @@
 
     <div class="image-previews" v-if="imageUrl">
       <div class="preview-container">
-        <img :src="`http://localhost:3100${imageUrl}#/`" alt="Preview"> 
+        <img :src="`http://localhost:3100${imageUrl}#/`" alt="Preview">
         <!-- Enkel voor development op deze schaal -->
         <button type="button" @click="removeImage">×</button>
       </div>
@@ -33,73 +22,80 @@
 
 <script>
 export default {
-name: 'ImageUpload',
-data() {
-  return {
-    isDragging: false,
-    imageUrl: null,
-    isUploading: false,
-  };
-},
-methods: {
-  async handleFileSelect(event) {
-    const file = event.target.files[0];
-    if (file) {
-      await this.uploadFile(file);
-    }
+  name: 'ImageUpload',
+  data() {
+    return {
+      isDragging: false,
+      imageUrl: null,
+      isUploading: false,
+    };
   },
+  methods: {
+    async handleFileSelect(event) {
+      const file = event.target.files[0];
+      if (file) {
+        await this.uploadFile(file);
+      }
+    },
 
-  async handleDrop(event) {
-    this.isDragging = false;
-    const file = event.dataTransfer.files[0];
-    if (file) {
-      await this.uploadFile(file);
-    }
-  },
+    async handleDrop(event) {
+      this.isDragging = false;
+      const file = event.dataTransfer.files[0];
+      if (file) {
+        await this.uploadFile(file);
+      }
+    },
 
-  async uploadFile(file) {
-    if (!file.type.startsWith('image/')) {
-      alert('Alleen afbeeldingen zijn toegestaan');
-      return;
-    }
-
-    if (file.size > 5 * 1024 * 1024) { // 5MB limit
-      alert('Bestand mag niet groter zijn dan 5MB');
-      return;
-    }
-
-    try {
-      this.isUploading = true;
-      const formData = new FormData();
-      formData.append('image', file);
-
-      const response = await fetch('http://localhost:3100/api/campingImageUpload', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error('Upload failed');
+    async uploadFile(file) {
+      if (!file.type.startsWith('image/')) {
+        alert('Alleen afbeeldingen zijn toegestaan');
+        return;
       }
 
-      const data = await response.json();
-      this.imageUrl = data.imageUrl;
-      // Emit the URL to parent component
-      this.$emit('image-uploaded', data.imageUrl);
-    } catch (error) {
-      console.error('Upload error:', error);
-      alert('Er ging iets mis bij het uploaden van de afbeelding');
-    } finally {
-      this.isUploading = false;
-    }
-  },
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        alert('Bestand mag niet groter zijn dan 5MB');
+        return;
+      }
 
-  removeImage() {
-    this.imageUrl = null;
-    this.$refs.fileInput.value = ''; // Reset file input
-    this.$emit('image-uploaded', null);
+      try {
+        this.isUploading = true;
+        const formData = new FormData();
+        formData.append('image', file);
+
+        const response = await fetch('http://localhost:3100/api/campingImageUpload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!response.ok) {
+          throw new Error('Upload failed');
+        }
+
+        const data = await response.json();
+        this.imageUrl = data.imageUrl;
+        // Emit the URL to parent component
+        this.$emit('image-uploaded', data.imageUrl);
+      } catch (error) {
+        console.error('Upload error:', error);
+        alert('Er ging iets mis bij het uploaden van de afbeelding');
+      } finally {
+        this.isUploading = false;
+      }
+    },
+
+    async removeImage() {
+      await fetch('http://localhost:3100/api/campingImageUpload', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({imageUrl: this.imageUrl}),
+      });
+      this.$refs.fileInput.value = ''; // Reset file input
+      this.imageUrl = null;
+      this.$emit('image-uploaded', null);
+    },
   },
-},
 };
 </script>
 

@@ -63,7 +63,7 @@
   
   <style scoped>
   .camping-card {
-    border: 1px solid #ddd;
+    border: 1px solid #000000;
     border-radius: 8px;
     overflow: hidden;
     cursor: pointer;

@@ -107,16 +107,16 @@ export default {
   computed: {
     userData() {
       return {
-        firstName: this.user.fn.trim(),
-        lastName: this.user.ln.trim(),
-        preferredName: this.user.pn.trim(),
-        roleUser: this.user.role.trim(),
-        email: this.user.email.trim(),
-        phoneNumber: this.user.phoneNumber.trim(),
-        address: `${this.user.street.trim()} | ${this.user.streetnr} | ${this.user.postcode.trim()} | ${this.user.town.trim()}`,
-        country: this.user.country.trim(),
-        emergencyTel: this.user.emergencyTelnr.trim(),
-        password: this.user.password.trim(),
+        firstName: this.user.fn,
+        lastName: this.user.ln,
+        preferredName: this.user.pn,
+        roleUser: this.user.role,
+        email: this.user.email,
+        phoneNumber: this.user.phoneNumber,
+        address: `${this.user.street} | ${this.user.streetnr} | ${this.user.postcode} | ${this.user.town}`,
+        country: this.user.country,
+        emergencyTel: this.user.emergencyTelnr,
+        password: this.user.password,
       };
 
     },
@@ -127,7 +127,8 @@ export default {
 
       if (!this.userData.firstName || !this.userData.lastName || !this.userData.email || !this.userData.password || !this.user.checkPassword) {
         console.log('test');
-        throw "Niet alle verplichte velden zijn ingevuld test";
+        this.regError = "Niet alle verplichte velden zijn ingevuld";
+        return;
       }
       //gelijkaardige check -> programma crasht als je trim doet op leeg veld, dus eerst check of leeg, dan check voor enkel spaties
       if (!this.user.fn.trim() || !this.user.ln.trim() || !this.user.email.trim() || !this.user.password.trim()) {
@@ -137,9 +138,10 @@ export default {
 
       // wachtwoorden gelijk?
       if (this.userData.password !== this.user.checkPassword) {
-        throw "wachtwoord is niet gelijk";
+        this.regError = "wachtwoord is niet gelijk";
+        return;
       }
-
+      this.regError = '';
       fetch("http://localhost:3100/api/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

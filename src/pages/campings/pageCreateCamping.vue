@@ -46,7 +46,7 @@
         </div>
       </div>
       <div>
-        <label for="input_country">Land: </label>
+        <label for="input_country">Land:* </label>
         <countrySelector v-model="camping.country"  id="input_country"/>
       </div>
       <label>Faciliteiten:</label>
@@ -61,9 +61,10 @@
         <label>Afbeeldingen: </label>
         <imageUpload @image-uploaded="handleImageUrl" />
       </div>
+      <p class="error" v-show="!!errorMessage">{{ errorMessage }}</p>
       <div class="inlineGroup">
-        <button type="submit" @click="clearForm()">Annuleren</button>
-        <button type="submit" @click="submitCamping()">Aanmaken</button>
+        <button  @click="clearForm()">Annuleren</button>
+        <button type="submit"  @click="submitCamping()">Aanmaken</button>
       </div>
     </form>
   </div>
@@ -103,6 +104,7 @@ export default {
       campingImageUrl: null,
       facilities: [],
       selectedFacilities: [],
+      errorMessage: '',
     };
 
   },
@@ -137,6 +139,14 @@ export default {
         this.$router.push('/login');
         return false;
       }
+
+      if (!this.campingData.name || !this.campingData.type || !this.campingData.size || !this.campingData.price || !this.campingData.address || !this.campingData.country) {
+        this.errorMessage = 'Niet alle verplichte velden zijn ingevuld';
+        return false;
+      }
+      
+      
+
       const dataToSend = {
         ...this.campingData,
         userRole: this.userStore.currentUserRole,
@@ -159,6 +169,7 @@ export default {
         .then(() => {
           this.campingStore.fetchCampings(); 
           this.userStore.currentUserRole = 'owner'; 
+          this.errorMessage='';
         })
         .then(data => {
           console.log('Success:', data);
@@ -169,6 +180,7 @@ export default {
         .catch(error => {
           // Handle error
           console.error('Error:', error);
+          this.errorMessage = error;
         });
 
     },
@@ -187,7 +199,6 @@ export default {
         postcode: '',
         town: '',
         country: '',
-        
       };
       this.imageUrl = '';
       this.selectedFacilities = [];

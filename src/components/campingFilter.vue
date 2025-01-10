@@ -44,7 +44,7 @@
             <div v-show="isExtended">
                 <label>Faciliteiten</label>
                 <div class="facilities">
-                    <div v-for="facility in facilityStore.facilities" :key="facility.id">
+                    <div v-for="facility in facilityStore.facilities" :key="facility.id" class="filterFacilities">
                         <div>
                             <input type="checkbox" :value="facility.facilityName" v-model="campingStore.filter.facilities" />
                             {{ facility.facilityName }}
@@ -139,7 +139,13 @@ export default {
     display: flex;
     flex-wrap: wrap;
     margin: 5px;
+    column-gap: 5px;
 }
+.filterFacilities{
+    border-right:1px solid rgba(128, 128, 128, 0.548);
+    padding-right: 8px;
+}
+
 .filterButtons {
     display: flex;
     width: 15%;

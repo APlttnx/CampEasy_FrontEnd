@@ -25,6 +25,7 @@ export const useUserStore = defineStore('user', {
                 country: state.currentUserData.country,
                 emergencyTelnr: state.currentUserData.emergencyTel,
             };
+            
         },
     },
     actions: {
@@ -104,7 +105,9 @@ export const useUserStore = defineStore('user', {
                         firstName: userData.firstName,
                         lastName: userData.lastName,
                         preferredName: userData.preferredName,
+                        userRole: this.currentUserRole,
                         phoneNumber: userData.phoneNumber,
+                        email: userData.email,
                         address: userData.address,
                         country: userData.country,
                         emergencyTel: userData.emergencyTel,
@@ -113,7 +116,7 @@ export const useUserStore = defineStore('user', {
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    return Promise.reject(errorData); //!
+                    return Promise.reject(errorData);
                 }
 
                 await this.fetchUserData();
