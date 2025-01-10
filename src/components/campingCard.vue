@@ -2,14 +2,18 @@
   <router-link class="card" :to="{name: 'CampingDetails', params: {ID: camping.ID }}">
     <div :class="camping.isOwner ? 'owner-card' : 'camping-card'">
       <div class="image-camping">
-        <img :src="camping.image || require('@/assets/irlFotoTest.jpg')" alt="Camping Image" />
+        <img :src="camping.image || require('@/assets/defaultCamp.webp')" alt="Camping Image" />
         
         <div v-if="!!camping.startDate && !!camping.endDate" 
-          :class=" formatDate(camping.endDate) > new Date() ? 'campingDatesPresent' : 'campingDatesPast'">{{ camping.startDate }} - {{ camping.endDate }}
+          :class=" formatDate(camping.endDate) > new Date() ? 'cardLabel campingDatesPresent' : 'cardLabel campingDatesPast'">{{ camping.startDate }} - {{ camping.endDate }}
+        </div>
+        
+        <div v-if="!!camping.totalPrice" 
+          :class=" formatDate(camping.endDate) > new Date() ? 'cardLabel totalPricePresent' : 'cardLabel totalPricePast'">{{ toCurrency(camping.totalPrice) }}
         </div>
         
         <div v-if="!!camping.isOwner" 
-          :class=" 'campingDatesPresent'"> Inkomsten: {{toCurrency(camping.earnings)}}
+          :class=" 'cardlabel campingDatesPresent'"> Inkomsten: {{toCurrency(camping.earnings)}}
         </div>
       </div>
         
@@ -126,7 +130,7 @@
     width: auto;
     padding: 10px;
   }
-  .campingDatesPresent {
+  .cardLabel {
     position: absolute; 
     top: 10px;           
     right: 10px;        
@@ -135,16 +139,22 @@
     padding: 6px;        
     border-radius: 10px;
   }
-  .campingDatesPast {
-    position: absolute; 
-    top: 10px;           
-    right: 10px;        
-    background-color: rgb(85, 85, 85); 
-    color: white;        
-    padding: 6px;        
-    border-radius: 10px;
+  .cardLabel.campingDatesPresent {      
+    background-color: rgb(0, 133, 7); 
   }
-
+  .cardLabel.campingDatesPast {     
+    background-color: rgb(85, 85, 85); 
+  }
+  .cardLabel.totalPricePresent {     
+    background-color: rgb(0, 133, 7);
+    top: 50px;           
+    right: 10px;  
+  }
+  .cardLabel.totalPricePast {     
+    background-color: rgb(85, 85, 85);
+    top: 50px;           
+    right: 10px;  
+  }
 
   </style>
   

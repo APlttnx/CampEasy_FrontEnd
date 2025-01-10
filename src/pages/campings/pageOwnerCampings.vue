@@ -7,7 +7,7 @@
                 Jouw campings:
             </div> 
             <div class="totalEarnings">
-                Totaal: {{ toCurrency(campingStore.ownerTotalEarnings) }}
+                Som inkomsten: {{ toCurrency(campingStore.ownerTotalEarnings) }}
             </div>
         </div>
         <div v-if="isLoading">Loading...</div>

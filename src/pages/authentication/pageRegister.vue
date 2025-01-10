@@ -20,8 +20,8 @@
         <input type="email" v-model="user.email" id="input_email" required maxlength="100">
       </div>
       <div>
-        <label for="input_phoneNumber">Telefoonnummer:* </label>
-        <input type="text" v-model="user.phoneNumber" id="input_phoneNumber" required maxlength="20">
+        <label for="input_phoneNumber">Telefoonnummer: </label>
+        <input type="text" v-model="user.phoneNumber" id="input_phoneNumber" maxlength="20">
       </div>
       <div class="inlineGroup">
         <div class="large">
@@ -123,24 +123,21 @@ export default {
 
   methods: {
     submitUser() {
-      try{
 
-      if (!this.userData.firstName || !this.userData.lastName || !this.userData.email || !this.userData.phoneNumber || !this.userData.password || !this.user.checkPassword) {
+      if (!this.userData.firstName || !this.userData.lastName || !this.userData.email || !this.userData.password || !this.user.checkPassword) {
         console.log('test');
         throw "Niet alle verplichte velden zijn ingevuld test";
       }
       //gelijkaardige check -> programma crasht als je trim doet op leeg veld, dus eerst check of leeg, dan check voor enkel spaties
-      // if (!this.user.fn.trim() || !this.user.ln.trim() || !this.user.email.trim() || !this.user.phoneNumber.trim() || !this.user.password.trim()) {
-      //   this.regError = "Niet alle verplichte velden zijn ingevuld";
-      //   return;
-      // }
+      if (!this.user.fn.trim() || !this.user.ln.trim() || !this.user.email.trim() || !this.user.password.trim()) {
+        this.regError = "Niet alle verplichte velden zijn ingevuld";
+        return;
+      }
 
       // wachtwoorden gelijk?
       if (this.userData.password !== this.user.checkPassword) {
         throw "wachtwoord is niet gelijk";
       }
-
-
 
       fetch("http://localhost:3100/api/users", {
         method: "POST",
@@ -155,23 +152,19 @@ export default {
         })
         .then(data => {
           // Handle success
-          console.log(data);
-          if (data.error) throw data.error;
           console.log('Success:', data);
           this.$router.push('/login');
         })
         .catch(error => {
-          // Handle error
-          console.error('Error:', error);
-          throw error;
-          // this.regError = error.details;
+        // Check for specific errors and display an appropriate message
+        if (error.error === "Email already in use") {
+          this.regError = "Dit e-mailadres is al in gebruik";
+        } else {
+          this.regError = "Er is een fout opgetreden tijdens de registratie";
+        }
+        console.error(error);
         });
-      }catch (error){
-        this.regError = error;
-        console.log(error);
-      }
     },
-    
   },
 };
 </script>

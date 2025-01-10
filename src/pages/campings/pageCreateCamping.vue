@@ -14,7 +14,7 @@
         </select>
       </div>
       <div>
-        <label for="input_size">Grootte: </label>
+        <label for="input_size">Oppervlakte: </label>
         <input type="number" v-model="camping.size" id="input_size">
       </div>
       <div>

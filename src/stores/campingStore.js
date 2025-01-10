@@ -93,7 +93,9 @@ export const useCampingStore = defineStore('camping', {
                     image: camping.imageUrl,
                     startDate: booking.startDate,
                     endDate: booking.endDate,
+                    totalPrice: booking.totalPrice,
                 };
+                
                 formatDate(card.endDate) >= new Date() ? presentBookings.push(card) : pastBookings.push(card);
             }); 
             return {presentBookings, pastBookings};

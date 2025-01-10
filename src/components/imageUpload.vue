@@ -23,7 +23,8 @@
 
     <div class="image-previews" v-if="imageUrl">
       <div class="preview-container">
-        <img :src="imageUrl" alt="Preview">
+        <img :src="`http://localhost:3100${imageUrl}#/`" alt="Preview"> 
+        <!-- Enkel voor development op deze schaal -->
         <button type="button" @click="removeImage">×</button>
       </div>
     </div>

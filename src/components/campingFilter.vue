@@ -14,7 +14,7 @@
                 </select>
             </div>
             <div class="filterItem small">
-                <label for="filterSize">Min. Grootte</label>
+                <label for="filterSize">Min. m²</label>
                 <input id="filterSize" type="number" min="0" v-model="campingStore.filter.size">
             </div>
             <div class="filterItem small">
