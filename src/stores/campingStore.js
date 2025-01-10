@@ -42,7 +42,7 @@ export const useCampingStore = defineStore('camping', {
                 // type
                 if (state.filter.type && camping.type != state.filter.type) return false;
 
-                // groote
+                // grootte
                 if (state.filter.size && camping.size < state.filter.size) return false;
     
                 // Prijs

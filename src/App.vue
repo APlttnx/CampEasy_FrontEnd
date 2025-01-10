@@ -1,5 +1,5 @@
 <template>
-
+<!-- Arnout Plettinx  -->
   <div id="app">
     <header>
     <img class="headerPicture" src="./assets/headerAfb.jpg" alt="forest"/>
@@ -46,70 +46,5 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-
-}
-body {
-  background: #123524;
-  background-attachment: fixed;
-  padding: 0px;
-  margin: 0px;
-}
-
-header {
-  background-color: #3E7B27;
-  margin: 0;
-
-}
-
-main {
-  margin: 0 auto;
-  padding: 30px;
-  background-color: #EFE3C2;
-  min-height: 700px;
-  margin-left: 10%;
-  margin-right: 10%;
-}
-
-
-nav {
-  list-style: none;
-  margin: 0;
-  padding: 8px;
-  display: flex;
-  background-color: #123524;
-  justify-content: center; 
-  align-items: center; 
-  height: 30px;
-}
-
-.navItem {
-  margin: 0 15px; 
-  color: #EFE3C2;
-  text-decoration: underline;
-}
-
-.router-link-active{
-  color: rgba(252, 151, 84, 0.959)
-}
-
-.headerPicture {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  object-fit: cover;
-}
-
-.column {
-  float: left;
-  width: 10%;
-}
-
-.column.center {
-  float: left;
-  width: 80%;
-}
 
 </style>
