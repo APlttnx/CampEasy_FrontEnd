@@ -56,11 +56,11 @@ export const useUserStore = defineStore('user', {
                 return false;
             }
         },
-        async logout() {
+        logout() {
             this.token = '';
             this.currentUserRole = '';
             this.currentUserGreetName = '';
-            this.currentOtherData = null;
+            this.currentUserData = null;
 
             localStorage.clear();
         },
@@ -103,13 +103,11 @@ export const useUserStore = defineStore('user', {
                     body: JSON.stringify({
                         firstName: userData.firstName,
                         lastName: userData.lastName,
-                        preferredName: userData.preferredName || "",
-                        roleUser: userData.roleUser,
-                        email: userData.email,
+                        preferredName: userData.preferredName,
                         phoneNumber: userData.phoneNumber,
-                        address: userData.address || "",
-                        country: userData.country || "",
-                        emergencyTel: userData.emergencyTel || "",
+                        address: userData.address,
+                        country: userData.country,
+                        emergencyTel: userData.emergencyTel,
                     }),
                 });
 
@@ -118,10 +116,7 @@ export const useUserStore = defineStore('user', {
                     return Promise.reject(errorData); //!
                 }
 
-                // Refresh user data
                 await this.fetchUserData();
-                // const successData = await response.json();
-                // return successData;
             } catch (error) {
                 return Promise.reject(error);
             }

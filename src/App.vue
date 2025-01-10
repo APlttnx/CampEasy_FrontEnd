@@ -12,7 +12,6 @@
         <router-link v-if="isAuthenticated && this.userStore.currentUserRole == 'owner'" class="navItem" to="/mijnCampings">Mijn Campings</router-link>
         <router-link v-if="isAuthenticated" class="navItem" to="/campingAanmaken">Camping Aanmaken</router-link>
         <a v-if="isAuthenticated" @click="logout()" class="navItem" href="#">Afmelden</a>
-        
       </nav>
     </header>
     <main>
@@ -23,26 +22,22 @@
 
 <script>
 import { useUserStore } from './stores/userStore';
+import { useCampingStore } from './stores/campingStore';
 import { mapStores } from 'pinia';
 
 export default {
   name: "app",
-  components: {
-  },
-  data() {
-    return {
-      
-    };
-  },
   
   methods: {
     logout() {
-    this.userStore.logout();
+      this.userStore.logout();
+      this.campingStore.logout();
       this.$router.push('/');
+      
     },
   },
   computed: {
-    ...mapStores(useUserStore),
+    ...mapStores(useUserStore, useCampingStore),
     isAuthenticated() {
       return this.userStore.isAuthenticated;
     },

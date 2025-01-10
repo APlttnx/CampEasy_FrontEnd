@@ -165,7 +165,6 @@ export default {
         await this.campingStore.fetchOwnerCampings();
       }
     this.isTheOwner = this.campingStore.isTheOwner(this.campingDetails.ID);
-    console.log(this.isTheOwner);
     },
     
     async fetchBookings() {
@@ -186,8 +185,6 @@ export default {
           // iDate = addDay(iDate);
 
           const limitDate = new Date(endDate);
-          console.log(iDate);
-          console.log(limitDate);
           while (iDate <= limitDate) {
             this.unavailableDates.push(iDate);
             iDate = addDay(iDate);
@@ -207,10 +204,8 @@ export default {
       //voor de zekerheid nakijken dat tijd op 0 staat
       const startDate = this.pickedStartDate;
       startDate.setHours(0,0,0,0);
-      console.log(startDate);
       const endDate = this.pickedEndDate;
       endDate.setHours(0,0,0,0);
-      console.log(endDate);
 
       const adjustedStartDate = new Date(startDate.getTime() - (startDate.getTimezoneOffset() * 60000)).toISOString();
       const adjustedEndDate = new Date(endDate.getTime() - (endDate.getTimezoneOffset() * 60000)).toISOString();
@@ -278,7 +273,7 @@ export default {
 .imageCamping {
   position: relative;
   width: 100%;
-  height: 700px;
+  height: 550px;
   overflow: hidden;
   border: 1px solid #123524;
   text-align: center;

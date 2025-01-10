@@ -44,6 +44,7 @@
         </div>
       </div>
       <div>
+        <label for="input_country">Land: </label>
         <countrySelector v-model="user.country" id="input_country" />
       </div>
       <div>
@@ -51,7 +52,7 @@
         <input type="text" v-model="user.emergencyTelnr" id="input_emergencyTelnr" maxlength="20">
       </div>
       <div>
-        <label for="input_password">Wachtwoord:* </label>
+        <label for="input_password">Wachtwoord:* <i>(min 8 tekens)</i> </label>
         <input type="password" v-model="user.password" id="input_password" required minlength="8">
       </div>
       <div>

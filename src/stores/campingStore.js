@@ -102,10 +102,7 @@ export const useCampingStore = defineStore('camping', {
         },
 
         isTheOwner: (state) => (id) => {
-            console.log(id);
-            console.log(state.ownCampingData.length);
             if (state.ownCampingData.length === 0) {
-                console.log('fail');
                 return false;
             }
             const result = (state.ownCampingData.some(camping => camping.ID === id));
@@ -212,5 +209,12 @@ export const useCampingStore = defineStore('camping', {
                 searchQuery: '',
             };
         },
+        
+        logout() {
+            this.ownCampingData = [];
+            this.ownerTotalEarnings = '';
+            this.bookings = [];
+        },
+        
     },
 });

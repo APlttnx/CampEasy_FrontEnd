@@ -1,6 +1,5 @@
 <template>
     <div>
-      <label for="input_country">Land: </label>
       <input type="text" :value="modelValue" list="countryList" @input="onInputChange"  >
       <datalist id="countryList">
         <option v-for="country in countries" :key="country" :value="country" />

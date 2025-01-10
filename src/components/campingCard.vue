@@ -13,7 +13,7 @@
         </div>
         
         <div v-if="!!camping.isOwner" 
-          :class=" 'cardlabel campingDatesPresent'"> Inkomsten: {{toCurrency(camping.earnings)}}
+          :class=" 'cardLabel campingDatesPresent'"> Inkomsten: {{toCurrency(camping.earnings)}}
         </div>
       </div>
         

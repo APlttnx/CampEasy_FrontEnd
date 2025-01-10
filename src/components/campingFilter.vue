@@ -149,10 +149,6 @@ export default {
     bottom: -25px;
 }
 
-.filterButtons button {
-    border: 1px solid #203801;
-    background-color: #81af46;
-}
 .ext{
     color: black;
     background:#898d831e;
